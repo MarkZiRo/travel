@@ -13,3 +13,6 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
+
+images:
+  upload-root: ${UPLOAD_ROOT}
