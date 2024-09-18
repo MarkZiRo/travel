@@ -16,3 +16,6 @@ spring:
 
 images:
   upload-root: ${UPLOAD_ROOT}
+
+feed:
+  page-size: 10

@@ -55,5 +55,6 @@ jobs:
                       -e MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }} \
                       -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
                       -e DB_IP=${{ secrets.DB_IP }} \
+                      -e UPLOAD_ROOT=${{ secrets.UPLOAD_ROOT }} \
                       -p 8080:8080 --name swyp6-back ${{ secrets.DOCKERHUB_USERNAME  }}/swyp6
             sudo docker image prune -f
