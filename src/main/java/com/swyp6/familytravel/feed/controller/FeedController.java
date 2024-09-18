@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.controller;
 
 import com.swyp6.familytravel.feed.dto.FeedRequest;
+import com.swyp6.familytravel.feed.dto.FeedResponse;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.service.FeedService;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,10 @@ public class FeedController {
             @RequestPart(value = "request") FeedRequest feedRequest,
             @RequestPart(value = "imageFiles", required = false) Optional<List<MultipartFile>> imageFiles){
         return feedService.updateFeed(feedId, feedRequest, imageFiles);
+    }
+
+    @GetMapping("/{feedId}")
+    public FeedResponse getFeed(@PathVariable("feedId") Long feedId){
+        return feedService.getFeed(feedId);
     }
 }

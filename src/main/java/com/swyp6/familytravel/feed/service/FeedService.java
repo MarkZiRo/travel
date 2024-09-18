@@ -1,9 +1,10 @@
 package com.swyp6.familytravel.feed.service;
 
 import com.swyp6.familytravel.feed.dto.FeedRequest;
+import com.swyp6.familytravel.feed.dto.FeedResponse;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
-import com.swyp6.familytravel.image.service.ImageStoreService;
+import com.swyp6.familytravel.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
 
-    private final ImageStoreService imageStoreService;
+    private final ImageService imageStoreService;
 
     public Feed createFeed(FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
@@ -30,6 +31,12 @@ public class FeedService {
     public Feed updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
         feed.updateFeedContent(feedRequest);
-        return null;
+        return feed;
+    }
+
+    @Transactional(readOnly = true)
+    public FeedResponse getFeed(Long feedId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        return new FeedResponse(feed);
     }
 }
