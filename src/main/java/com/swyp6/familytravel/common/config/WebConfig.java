@@ -1,10 +1,9 @@
-package com.swyp6.familytravel.config;
+package com.swyp6.familytravel.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @RequiredArgsConstructor

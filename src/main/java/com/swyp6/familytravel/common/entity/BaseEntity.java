@@ -1,4 +1,4 @@
-package com.swyp6.familytravel.common;
+package com.swyp6.familytravel.common.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

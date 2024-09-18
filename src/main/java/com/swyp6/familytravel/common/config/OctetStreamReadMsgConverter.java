@@ -1,4 +1,4 @@
-package com.swyp6.familytravel.config;
+package com.swyp6.familytravel.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
