@@ -22,21 +22,34 @@ public class FeedService {
 
     private final ImageService imageStoreService;
 
-    public Feed createFeed(FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
+    public FeedResponse createFeed(FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         Feed newFeed = feedRequest.toFeed(imageFileNames);
-        return feedRepository.save(newFeed);
+        feedRepository.save(newFeed);
+        return new FeedResponse(newFeed);
     }
 
-    public Feed updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
+    public FeedResponse updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
         feed.updateFeedContent(feedRequest);
-        return feed;
+        return new FeedResponse(feed);
     }
 
     @Transactional(readOnly = true)
     public FeedResponse getFeed(Long feedId) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        return new FeedResponse(feed);
+    }
+
+    public FeedResponse likeFeed(Long feedId, Long userId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        feed.addLike(userId);
+        return new FeedResponse(feed);
+    }
+
+    public FeedResponse removeLikeFeed(Long feedId, Long userId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        feed.removeLike(userId);
         return new FeedResponse(feed);
     }
 }

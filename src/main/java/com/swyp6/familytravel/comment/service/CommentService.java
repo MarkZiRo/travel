@@ -10,8 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -37,9 +35,15 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public CommentResponse addLike(Long commentId) {
+    public CommentResponse addLike(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
-        comment.addLikeCnt();
+        comment.addLike(userId);
+        return new CommentResponse(comment);
+    }
+
+    public CommentResponse removeLike(Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        comment.removeLike(userId);
         return new CommentResponse(comment);
     }
 }

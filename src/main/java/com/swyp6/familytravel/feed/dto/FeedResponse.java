@@ -16,7 +16,7 @@ public class FeedResponse {
     private String content;
     private String place;
     private Long userId;
-    private Long likeCnt;
+    private Integer likeCnt;
     private LocalDate createDate;
     private List<String> imageList;
     private List<CommentResponse> commentList = new ArrayList<>();

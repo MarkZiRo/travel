@@ -2,7 +2,6 @@ package com.swyp6.familytravel.feed.controller;
 
 import com.swyp6.familytravel.feed.dto.FeedRequest;
 import com.swyp6.familytravel.feed.dto.FeedResponse;
-import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +21,14 @@ public class FeedController {
     private final FeedService feedService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Feed createFeed(
+    public FeedResponse createFeed(
             @RequestPart(value = "request") FeedRequest feedRequest,
             @RequestPart(value = "imageFiles", required = false) Optional<List<MultipartFile>> imageFiles){
         return feedService.createFeed(feedRequest, imageFiles);
     }
 
     @PatchMapping(path = "/{feedId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Feed updateFeed(
+    public FeedResponse updateFeed(
             @PathVariable("feedId") Long feedId,
             @RequestPart(value = "request") FeedRequest feedRequest,
             @RequestPart(value = "imageFiles", required = false) Optional<List<MultipartFile>> imageFiles){
@@ -39,5 +38,15 @@ public class FeedController {
     @GetMapping("/{feedId}")
     public FeedResponse getFeed(@PathVariable("feedId") Long feedId){
         return feedService.getFeed(feedId);
+    }
+
+    @GetMapping("/{feedId}/like")
+    public FeedResponse likeFeed(@PathVariable("feedId") Long feedId, @RequestParam Long userId){
+        return feedService.likeFeed(feedId, userId);
+    }
+
+    @GetMapping("/{feedId}/dislike")
+    public FeedResponse dislikeFeed(@PathVariable("feedId") Long feedId, @RequestParam Long userId){
+        return feedService.removeLikeFeed(feedId, userId);
     }
 }

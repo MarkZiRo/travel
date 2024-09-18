@@ -8,12 +8,14 @@ import java.time.LocalDate;
 
 @Getter
 public class CommentResponse {
+    private Long id;
     private Long userId;
     private String comment;
-    private Long likeCnt;
+    private Integer likeCnt;
     private LocalDate createdAt;
 
     public CommentResponse(Comment comment){
+        this.id = comment.getId();
         this.userId = comment.getUserId();
         this.comment = comment.getContent();
         this.likeCnt = comment.getLikeCnt();

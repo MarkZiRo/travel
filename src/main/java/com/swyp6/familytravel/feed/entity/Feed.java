@@ -1,18 +1,13 @@
 package com.swyp6.familytravel.feed.entity;
 
 import com.swyp6.familytravel.comment.entity.Comment;
-import com.swyp6.familytravel.common.BaseEntity;
+import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +22,9 @@ public class Feed extends BaseEntity {
     private String content;
     private String place;
     private Long userId;
-    private Long likeCnt;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<Long> likeList = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> imageList;
@@ -41,7 +38,6 @@ public class Feed extends BaseEntity {
         this.place = Objects.requireNonNull(place);
         this.userId = Objects.requireNonNull(userId);
         this.imageList = Objects.requireNonNull(imageList);
-        this.likeCnt = 0L;
     }
 
     public void updateFeedContent(FeedRequest feedRequest){
@@ -49,8 +45,22 @@ public class Feed extends BaseEntity {
         this.place = Objects.requireNonNullElse(feedRequest.getPlace(), place);
     }
 
-    public void addLikeCnt(){
-        this.likeCnt ++;
+    public void addLike(Long userId){
+        this.likeList.stream().filter(id -> id.equals(userId)).findFirst()
+                .ifPresent(id -> {
+                    throw new IllegalArgumentException("이미 좋아요를 누른 사용자입니다.");
+                });
+        this.likeList.add(userId);
+    }
+
+    public void removeLike(Long userId){
+        this.likeList.stream().filter(id -> id.equals(userId)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("좋아요를 누르지 않은 사용자입니다."));
+        this.likeList.remove(userId);
+    }
+
+    public int getLikeCnt(){
+        return this.likeList.size();
     }
 
     public void addComment(Comment comment){
