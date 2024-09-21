@@ -1,6 +1,5 @@
-package com.swift6.familytravel.auth.filters;
+package com.auth.filters;
 
-import com.swift6.familytravel.auth.entity.CustomUserDetails;
 import com.swift6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swift6.familytravel.auth.service.JpaUserDetailManager;
 import jakarta.servlet.FilterChain;
@@ -19,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 @Slf4j
 @RequiredArgsConstructor

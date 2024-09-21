@@ -1,12 +1,10 @@
-package com.swift6.familytravel.auth.service;
+package com.auth.service;
 
 import com.swift6.familytravel.auth.entity.CustomUserDetails;
 import com.swift6.familytravel.auth.entity.UserEntity;
 import com.swift6.familytravel.auth.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +25,7 @@ public class JpaUserDetailManager implements UserDetailsManager {
      {
          this.userRepository = userRepository;
          createUser(CustomUserDetails.builder()
-                 .userane("user1")
+                 .username("user1")
                  .password(passwordEncoder.encode("password1"))
                  .email("user@gmail.com")
                  .authorities("ROLE_USER")
@@ -45,7 +43,7 @@ public class JpaUserDetailManager implements UserDetailsManager {
         UserEntity userEntity = optionalUser.get();
 
         return CustomUserDetails.builder()
-                .userane(userEntity.getUsername())
+                .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
                 .email(userEntity.getEmail())
                 .authorities(userEntity.getAuthorities())

@@ -1,7 +1,8 @@
-package com.swift6.familytravel.auth.config;
+package com.auth.config;
 
 import com.swift6.familytravel.auth.filters.JwtTokenFilter;
 import com.swift6.familytravel.auth.jwt.JwtTokenUtils;
+import com.swift6.familytravel.auth.oauth.OAuth2SuccessHandler;
 import com.swift6.familytravel.auth.oauth.OAuth2UserServiceImpl;
 import com.swift6.familytravel.auth.service.JpaUserDetailManager;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class WebSecurityConfig {
     private final JwtTokenUtils jwtTokenUtils;
     private final JpaUserDetailManager manager;
     private final OAuth2UserServiceImpl oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
@@ -39,6 +41,7 @@ public class WebSecurityConfig {
         )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/users/login")
+                        .successHandler(oAuth2SuccessHandler)
                         .userInfoEndpoint(userInfo -> userInfo
                         .userService(oAuth2UserService))
                 )

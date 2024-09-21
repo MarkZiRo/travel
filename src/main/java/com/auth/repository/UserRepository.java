@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.repository;
+package com.auth.repository;
 
 import com.swift6.familytravel.auth.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

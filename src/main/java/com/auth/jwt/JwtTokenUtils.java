@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.jwt;
+package com.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;

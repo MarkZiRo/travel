@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.jwt;
+package com.auth.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

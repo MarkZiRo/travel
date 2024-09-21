@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.config;
+package com.auth.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

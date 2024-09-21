@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.controller;
+package com.auth.controller;
 
 import com.swift6.familytravel.auth.jwt.JwtRequestDto;
 import com.swift6.familytravel.auth.jwt.JwtResponseDto;

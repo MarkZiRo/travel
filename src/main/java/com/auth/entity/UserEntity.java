@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.entity;
+package com.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

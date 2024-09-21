@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.entity;
+package com.auth.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,10 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetails implements UserDetails {
 
     private Long id;
-    private String userane;
+    private String username;
     private String password;
     private String email;
 
@@ -58,6 +56,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userane;
+        return username;
     }
 }

@@ -1,4 +1,4 @@
-package com.swift6.familytravel.auth.oauth;
+package com.auth.oauth;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-        log.info("~~");
-
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
-        log.info("~~");
-
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
         Map<String , Object> attributes = new HashMap<>();
