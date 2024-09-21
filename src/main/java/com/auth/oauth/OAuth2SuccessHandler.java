@@ -1,7 +1,8 @@
 package com.auth.oauth;
 
-import com.swift6.familytravel.auth.entity.CustomUserDetails;
-import com.swift6.familytravel.auth.jwt.JwtTokenUtils;
+
+import com.auth.entity.CustomUserDetails;
+import com.auth.jwt.JwtTokenUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

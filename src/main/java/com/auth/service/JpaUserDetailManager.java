@@ -1,8 +1,8 @@
 package com.auth.service;
 
-import com.swift6.familytravel.auth.entity.CustomUserDetails;
-import com.swift6.familytravel.auth.entity.UserEntity;
-import com.swift6.familytravel.auth.repository.UserRepository;
+import com.auth.entity.CustomUserDetails;
+import com.auth.entity.UserEntity;
+import com.auth.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;

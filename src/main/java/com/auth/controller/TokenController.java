@@ -1,8 +1,9 @@
 package com.auth.controller;
 
-import com.swift6.familytravel.auth.jwt.JwtRequestDto;
-import com.swift6.familytravel.auth.jwt.JwtResponseDto;
-import com.swift6.familytravel.auth.jwt.JwtTokenUtils;
+
+import com.auth.jwt.JwtRequestDto;
+import com.auth.jwt.JwtResponseDto;
+import com.auth.jwt.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

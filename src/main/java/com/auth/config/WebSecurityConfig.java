@@ -1,10 +1,10 @@
 package com.auth.config;
 
-import com.swift6.familytravel.auth.filters.JwtTokenFilter;
-import com.swift6.familytravel.auth.jwt.JwtTokenUtils;
-import com.swift6.familytravel.auth.oauth.OAuth2SuccessHandler;
-import com.swift6.familytravel.auth.oauth.OAuth2UserServiceImpl;
-import com.swift6.familytravel.auth.service.JpaUserDetailManager;
+import com.auth.filters.JwtTokenFilter;
+import com.auth.jwt.JwtTokenUtils;
+import com.auth.oauth.OAuth2SuccessHandler;
+import com.auth.oauth.OAuth2UserServiceImpl;
+import com.auth.service.JpaUserDetailManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
