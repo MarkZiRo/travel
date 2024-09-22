@@ -2,6 +2,7 @@ package com.swyp6.familytravel.image.service;
 import com.swyp6.familytravel.common.util.ImageSaveUtil;
 import com.swyp6.familytravel.image.entity.Image;
 import com.swyp6.familytravel.image.repository.ImageRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,7 @@ public class ImageService {
     }
 
     private void deleteImage(String savedName) {
-        Image image = imageRepository.findBySavedName(savedName).orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
+        Image image = imageRepository.findBySavedName(savedName).orElseThrow(() -> new EntityNotFoundException("해당 이미지가 존재하지 않습니다."));
         imageRepository.delete(image);
     }
 
@@ -48,7 +49,7 @@ public class ImageService {
 
     @Transactional(readOnly = true)
     public byte[] getImageByteArray(String imageId) {
-        Image image = imageRepository.findBySavedName(imageId).orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
+        Image image = imageRepository.findBySavedName(imageId).orElseThrow(() -> new EntityNotFoundException("해당 이미지가 존재하지 않습니다."));
         return imageSaveUtil.getImageByteArray(image);
     }
 

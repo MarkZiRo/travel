@@ -3,6 +3,7 @@ package com.swyp6.familytravel.image.service;
 import com.swyp6.familytravel.common.util.ImageSaveUtil;
 import com.swyp6.familytravel.image.entity.Image;
 import com.swyp6.familytravel.image.repository.ImageRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.mapping.Any;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,7 +91,7 @@ class ImageServiceTest {
         //When
         //Then
         assertThatThrownBy(()-> imageService.getImageByteArray(imageId))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(EntityNotFoundException.class)
                 .hasMessageContaining("해당 이미지가 존재하지 않습니다.");
     }
 }

@@ -6,6 +6,7 @@ import com.swyp6.familytravel.feed.dto.FeedSimilarity;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
 import com.swyp6.familytravel.image.service.ImageService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageImpl;
@@ -37,7 +38,7 @@ public class FeedService {
     }
 
     public FeedResponse updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
-        Feed feed = feedRepository.findById(id).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         imageService.deleteImageList(feed.getImageList());
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         feed.updateFeedContent(feedRequest, imageFileNames);
@@ -46,18 +47,18 @@ public class FeedService {
 
     @Transactional(readOnly = true)
     public FeedResponse getFeed(Long feedId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         return new FeedResponse(feed);
     }
 
     public FeedResponse likeFeed(Long feedId, Long userId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.addLike(userId);
         return new FeedResponse(feed);
     }
 
     public FeedResponse removeLikeFeed(Long feedId, Long userId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.removeLike(userId);
         return new FeedResponse(feed);
     }

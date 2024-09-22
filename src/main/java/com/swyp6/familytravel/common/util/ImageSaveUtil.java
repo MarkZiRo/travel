@@ -45,7 +45,7 @@ public class ImageSaveUtil {
         try {
             return Files.readAllBytes(filePath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("이미지 파일 조회 실패");
         }
     }
 
