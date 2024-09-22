@@ -40,9 +40,11 @@ public class Feed extends BaseEntity {
         this.imageList = Objects.requireNonNull(imageList);
     }
 
-    public void updateFeedContent(FeedRequest feedRequest){
+    public void updateFeedContent(FeedRequest feedRequest, List<String> imageList){
+        Objects.requireNonNull(feedRequest);
         this.content = Objects.requireNonNullElse(feedRequest.getContent(), content);
         this.place = Objects.requireNonNullElse(feedRequest.getPlace(), place);
+        this.imageList = Objects.requireNonNullElse(imageList, this.imageList);
     }
 
     public void addLike(Long userId){

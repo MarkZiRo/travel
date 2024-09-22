@@ -21,6 +21,7 @@ import java.util.*;
 @Service
 public class FeedService {
 
+    private final ImageService imageService;
     @Value("${feed.page-size}")
     private Long PAGE_SIZE;
 
@@ -37,7 +38,9 @@ public class FeedService {
 
     public FeedResponse updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
-        feed.updateFeedContent(feedRequest);
+        imageService.deleteImageList(feed.getImageList());
+        List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
+        feed.updateFeedContent(feedRequest, imageFileNames);
         return new FeedResponse(feed);
     }
 
@@ -66,8 +69,12 @@ public class FeedService {
     public PageImpl<Feed> getRecommendFeedList(Long userId, Pageable pageable){
 
         List<Feed> recommendedFeeds = recommendFeed(userId);
-        int start = Math.toIntExact(pageable.getOffset());
+        int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), recommendedFeeds.size());
+
+        if(start > end){
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
+        }
 
         return new PageImpl<>(recommendedFeeds.subList(start, end), pageable, recommendedFeeds.size());
     }
