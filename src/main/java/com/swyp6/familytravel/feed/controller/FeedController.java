@@ -48,19 +48,19 @@ public class FeedController {
     }
 
     @Operation(summary = "피드 삭제 API", description = "피드를 삭제합니다.")
-    @GetMapping("/{feedId}")
+    @DeleteMapping("/{feedId}")
     public FeedResponse getFeed(@PathVariable("feedId") Long feedId){
         return feedService.getFeed(feedId);
     }
 
     @Operation(summary = "피드 좋아요 API", description = "피드에 좋아요를 남깁니다. 만약 사용자가 이미 좋아요를 남겼으면 오류를 발생시킵니다.")
-    @GetMapping("/{feedId}/like")
+    @PostMapping("/{feedId}/like")
     public FeedResponse likeFeed(@PathVariable("feedId") Long feedId, @RequestParam Long userId){
         return feedService.likeFeed(feedId, userId);
     }
 
     @Operation(summary = "피드 좋아요 삭제 API", description = "피드에 좋아요를 지웁니다. 만약 사용자가 좋아요를 남기지 않았다면 오류를 발생시킵니다.")
-    @GetMapping("/{feedId}/removeLike")
+    @PostMapping("/{feedId}/removeLike")
     public FeedResponse dislikeFeed(@PathVariable("feedId") Long feedId,@RequestParam Long userId){
         return feedService.removeLikeFeed(feedId, userId);
     }
