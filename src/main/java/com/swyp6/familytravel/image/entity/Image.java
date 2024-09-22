@@ -13,12 +13,9 @@ public class Image extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String savedName;
-    @Column(name = "image_order")
-    private Integer order;
 
     @Builder
-    public Image(String savedName, Integer order) {
+    public Image(String savedName) {
         this.savedName = savedName;
-        this.order = order;
     }
 }

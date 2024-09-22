@@ -6,6 +6,7 @@ import com.swyp6.familytravel.feed.dto.FeedSimilarity;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
 import com.swyp6.familytravel.image.service.ImageService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +22,7 @@ import java.util.*;
 @Service
 public class FeedService {
 
+    private final ImageService imageService;
     @Value("${feed.page-size}")
     private Long PAGE_SIZE;
 
@@ -36,25 +38,27 @@ public class FeedService {
     }
 
     public FeedResponse updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
-        Feed feed = feedRepository.findById(id).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
-        feed.updateFeedContent(feedRequest);
+        Feed feed = feedRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
+        imageService.deleteImageList(feed.getImageList());
+        List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
+        feed.updateFeedContent(feedRequest, imageFileNames);
         return new FeedResponse(feed);
     }
 
     @Transactional(readOnly = true)
     public FeedResponse getFeed(Long feedId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         return new FeedResponse(feed);
     }
 
     public FeedResponse likeFeed(Long feedId, Long userId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.addLike(userId);
         return new FeedResponse(feed);
     }
 
     public FeedResponse removeLikeFeed(Long feedId, Long userId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new RuntimeException("Feed 가 없습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.removeLike(userId);
         return new FeedResponse(feed);
     }
@@ -66,8 +70,12 @@ public class FeedService {
     public PageImpl<Feed> getRecommendFeedList(Long userId, Pageable pageable){
 
         List<Feed> recommendedFeeds = recommendFeed(userId);
-        int start = Math.toIntExact(pageable.getOffset());
+        int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), recommendedFeeds.size());
+
+        if(start > end){
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
+        }
 
         return new PageImpl<>(recommendedFeeds.subList(start, end), pageable, recommendedFeeds.size());
     }
