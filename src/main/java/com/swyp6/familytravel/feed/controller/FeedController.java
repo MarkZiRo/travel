@@ -47,10 +47,16 @@ public class FeedController {
         return feedService.updateFeed(feedId, feedRequest, imageFiles);
     }
 
-    @Operation(summary = "피드 삭제 API", description = "피드를 삭제합니다.")
-    @DeleteMapping("/{feedId}")
+    @Operation(summary = "피드 조회 API", description = "피드를 조회합니다.")
+    @GetMapping("/{feedId}")
     public FeedResponse getFeed(@PathVariable("feedId") Long feedId){
         return feedService.getFeed(feedId);
+    }
+
+    @Operation(summary = "피드 삭제 API", description = "피드를 삭제합니다.")
+    @DeleteMapping("/{feedId}")
+    public FeedResponse deleteFeed(@PathVariable("feedId") Long feedId, Long userId){
+        return feedService.deleteFeed(feedId, userId);
     }
 
     @Operation(summary = "피드 좋아요 API", description = "피드에 좋아요를 남깁니다. 만약 사용자가 이미 좋아요를 남겼으면 오류를 발생시킵니다.")
