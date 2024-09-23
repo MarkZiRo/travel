@@ -110,4 +110,11 @@ public class FeedService {
 
         return (double) intersection.size() / union.size();
     }
+
+    public FeedResponse deleteFeed(Long feedId, Long userId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
+        assert(feed.getUserId().equals(userId));
+        feedRepository.delete(feed);
+        return new FeedResponse(feed);
+    }
 }
