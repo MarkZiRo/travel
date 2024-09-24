@@ -6,24 +6,27 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class FeedResponse {
-    private Long id;
-    private String title;
-    private String content;
-    private String place;
-    private Long userId;
-    private Integer likeCnt;
-    private LocalDate createDate;
-    private List<String> imageList;
-    private List<CommentResponse> commentList = new ArrayList<>();
+public class FeedPreviewResponse {
+
+    private final static int PREVIEW_COMMENT_NUM = 2;
+
+    private final Long id;
+    private final String title;
+    private final String content;
+    private final String place;
+    private final Long userId;
+    private final Integer likeCnt;
+    private final LocalDate createDate;
+    private final List<String> imageList;
+    private final List<CommentResponse> commentList;
+    private final Integer commentCount;
 
     @Builder
-    public FeedResponse(Feed feed){
+    public FeedPreviewResponse(Feed feed){
         Objects.requireNonNull(feed);
         this.id = feed.getId();
         this.title = feed.getTitle();
@@ -33,7 +36,7 @@ public class FeedResponse {
         this.likeCnt = feed.getLikeCnt();
         this.createDate = LocalDate.from(feed.getCreatedDateTime());
         this.imageList = feed.getImageList();
-        this.commentList = feed.getCommentList().stream().map(CommentResponse::new).toList();
+        this.commentList = feed.getCommentList().stream().limit(PREVIEW_COMMENT_NUM).map(CommentResponse::new).toList();
+        this.commentCount = feed.getCommentList().size();
     }
-
 }
