@@ -11,9 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -33,16 +30,16 @@ class FeedServiceTest {
 
     @Test
     void createFeed() {
-        Feed feed = new Feed("content", "place", 1L, List.of());
+        Feed feed = new Feed("title", "content", "place", 1L, List.of());
         feed.addLike(1L);
 
         when(feedRepository.findAllByLikeListContains(1L)).thenReturn(List.of());
         when(feedRepository.findAll()).thenReturn(List.of(
-                new Feed("content", "place", 1L, List.of()),
-                new Feed("content", "place", 2L, List.of()),
-                new Feed("test", "place", 3L, List.of()),
-                new Feed("test", "place", 4L, List.of()),
-                new Feed("test", "place", 1L, List.of()),
+                new Feed("title", "content", "place", 1L, List.of()),
+                new Feed("title", "content", "place", 2L, List.of()),
+                new Feed("title", "test", "place", 3L, List.of()),
+                new Feed("title", "test", "place", 4L, List.of()),
+                new Feed("title", "test", "place", 1L, List.of()),
                 feed));
 
         PageImpl<Feed> recommendFeedList = feedService.getRecommendFeedList(1L, PageRequest.of(3, 2));
