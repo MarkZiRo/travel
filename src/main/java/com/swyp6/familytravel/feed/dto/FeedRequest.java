@@ -11,6 +11,8 @@ import java.util.List;
 @ToString
 @Getter
 public class FeedRequest {
+    @NotEmpty
+    private String title;
     @NotNull
     private String content;
     @NotEmpty
@@ -20,6 +22,7 @@ public class FeedRequest {
 
     public Feed toFeed(List<String> imageList){
         return Feed.builder()
+                .title(title)
                 .content(content)
                 .place(place)
                 .userId(userId)

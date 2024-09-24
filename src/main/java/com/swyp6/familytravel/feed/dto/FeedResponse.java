@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class FeedResponse {
     private Long id;
+    private String title;
     private String content;
     private String place;
     private Long userId;
@@ -25,6 +26,7 @@ public class FeedResponse {
     public FeedResponse(Feed feed){
         Objects.requireNonNull(feed);
         this.id = feed.getId();
+        this.title = feed.getTitle();
         this.content = feed.getContent();
         this.place = feed.getPlace();
         this.userId = feed.getUserId();

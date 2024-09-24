@@ -21,6 +21,7 @@ class FeedTest {
     void setUp() {
         this.feed = Feed.builder()
                 .userId(1L)
+                .title("title")
                 .place("place")
                 .content("content")
                 .imageList(new ArrayList<>())
@@ -35,6 +36,7 @@ class FeedTest {
         //Then
         assertThatThrownBy(() -> Feed.builder()
                 .userId(null)
+                .title("title")
                 .place("place")
                 .content("content")
                 .imageList(new ArrayList<>())
@@ -42,6 +44,15 @@ class FeedTest {
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
                 .userId(1L)
+                .title(null)
+                .place("place")
+                .content("content")
+                .imageList(new ArrayList<>())
+                .build())
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> Feed.builder()
+                .userId(1L)
+                .title("title")
                 .place(null)
                 .content("content")
                 .imageList(new ArrayList<>())
@@ -49,6 +60,7 @@ class FeedTest {
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
                 .userId(1L)
+                .title("title")
                 .place("place")
                 .content(null)
                 .imageList(new ArrayList<>())
@@ -56,6 +68,7 @@ class FeedTest {
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
                 .userId(1L)
+                .title("title")
                 .place("place")
                 .content("content")
                 .imageList(null)
@@ -65,7 +78,7 @@ class FeedTest {
 
     @Test
     @DisplayName("피드 업데이트 시 null 값이 들어오면 에러를 발생시킨다.")
-    void nullParameterUpdateFeedTest() throws Exception {
+    void nullParameterUpdateFeedTest() {
         //Given
         //When
         //Then
