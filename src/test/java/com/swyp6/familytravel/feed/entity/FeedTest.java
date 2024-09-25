@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.entity;
 
 import com.swyp6.familytravel.feed.dto.FeedRequest;
+import com.swyp6.familytravel.user.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class FeedTest {
     @BeforeEach
     void setUp() {
         this.feed = Feed.builder()
-                .userId(1L)
+                .user(new UserEntity())
                 .title("title")
                 .place("place")
                 .content("content")
@@ -35,7 +36,7 @@ class FeedTest {
         //When
         //Then
         assertThatThrownBy(() -> Feed.builder()
-                .userId(null)
+                .user(null)
                 .title("title")
                 .place("place")
                 .content("content")
@@ -43,7 +44,7 @@ class FeedTest {
                 .build())
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
-                .userId(1L)
+                .user(new UserEntity())
                 .title(null)
                 .place("place")
                 .content("content")
@@ -51,7 +52,7 @@ class FeedTest {
                 .build())
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
-                .userId(1L)
+                .user(new UserEntity())
                 .title("title")
                 .place(null)
                 .content("content")
@@ -59,7 +60,7 @@ class FeedTest {
                 .build())
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
-                .userId(1L)
+                .user(new UserEntity())
                 .title("title")
                 .place("place")
                 .content(null)
@@ -67,7 +68,7 @@ class FeedTest {
                 .build())
                 .isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> Feed.builder()
-                .userId(1L)
+                .user(new UserEntity())
                 .title("title")
                 .place("place")
                 .content("content")
@@ -91,7 +92,7 @@ class FeedTest {
     void updateFeedContentNullTest() throws Exception {
         //Given
         //When
-        feed.updateFeedContent(of(1L, null, null), null);
+        feed.updateFeedContent(of(null, null), null);
         //Then
         assertThat(feed.getContent()).isEqualTo("content");
         assertThat(feed.getPlace()).isEqualTo("place");
@@ -102,7 +103,7 @@ class FeedTest {
     void updateFeedContentTest() throws Exception {
         //Given
         //When
-        feed.updateFeedContent(of(1L, "update content", "update place"), List.of("image1", "image2"));
+        feed.updateFeedContent(of("update content", "update place"), List.of("image1", "image2"));
         //Then
         assertThat(feed.getContent()).isEqualTo("update content");
         assertThat(feed.getPlace()).isEqualTo("update place");
@@ -155,14 +156,11 @@ class FeedTest {
         assertThat(feed.getLikeCnt()).isEqualTo(0);
     }
 
-    public static FeedRequest of(Long userId, String content, String place) throws Exception {
+    public static FeedRequest of(String content, String place) throws Exception {
         FeedRequest feedRequest = new FeedRequest();
         Class<?> clazz = Class.forName("com.swyp6.familytravel.feed.dto.FeedRequest");
 
-        Field Field = clazz.getDeclaredField("userId");
-        Field.setAccessible(true);
-        Field.set(feedRequest, userId);
-        Field = clazz.getDeclaredField("content");
+        Field Field = clazz.getDeclaredField("content");
         Field.setAccessible(true);
         Field.set(feedRequest, content);
         Field = clazz.getDeclaredField("place");

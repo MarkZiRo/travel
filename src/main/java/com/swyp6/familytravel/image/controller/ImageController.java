@@ -2,6 +2,7 @@ package com.swyp6.familytravel.image.controller;
 
 import com.swyp6.familytravel.image.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -14,6 +15,7 @@ import static com.swyp6.familytravel.image.service.ImageMediaType.getMediaTypeBy
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/image")
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Image")
 public class ImageController {
 

@@ -1,0 +1,33 @@
+package com.swyp6.familytravel.user.entity;
+
+import com.swyp6.familytravel.family.entity.Family;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@Table(name = "user_table")
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    private String authorities;
+
+    @ManyToOne
+    @JoinColumn(name = "family_id")
+    private Family family;
+
+    private String profileImage;
+}

@@ -56,5 +56,10 @@ jobs:
                       -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
                       -e DB_IP=${{ secrets.DB_IP }} \
                       -e UPLOAD_ROOT=${{ secrets.UPLOAD_ROOT }} \
+                      -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
+                      -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+                      -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_ID }} \
+                      -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
                       -p 8080:8080 --name swyp6-back ${{ secrets.DOCKERHUB_USERNAME  }}/swyp6
             sudo docker image prune -f
+

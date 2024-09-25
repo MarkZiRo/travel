@@ -1,11 +1,11 @@
 package com.swyp6.familytravel.comment.service;
 
-import com.swyp6.familytravel.comment.dto.CommentRequest;
 import com.swyp6.familytravel.comment.dto.CommentResponse;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.comment.repository.CommentRepository;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
+import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,21 +19,27 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final FeedRepository feedRepository;
 
-    public CommentResponse createComment(Long feedId, CommentRequest commentRequest) {
+    public CommentResponse createComment(Long feedId, UserEntity user, String content) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("해당 피드가 존재하지 않습니다."));
-        Comment comment = commentRequest.toComment(feed);
+        Comment comment = Comment.builder()
+                .content(content)
+                .user(user)
+                .feed(feed)
+                .build();
         commentRepository.save(comment);
         return new CommentResponse(comment);
     }
 
-    public CommentResponse updateComment(Long commentId, String content) {
+    public CommentResponse updateComment(Long commentId, Long userId, String content) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
+        assert(comment.getUser().getId().equals(userId));
         comment.updateComment(content);
         return new CommentResponse(comment);
     }
 
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
+        assert(comment.getUser().getId().equals(userId));
         comment.getFeed().removeComment(comment);
         commentRepository.deleteById(commentId);
     }
