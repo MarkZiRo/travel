@@ -6,25 +6,26 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class FeedResponse {
-    private Long id;
-    private String content;
-    private String place;
-    private Long userId;
-    private Integer likeCnt;
-    private LocalDate createDate;
-    private List<String> imageList;
-    private List<CommentResponse> commentList = new ArrayList<>();
+public class FeedDetailResponse {
+    private final Long id;
+    private final String title;
+    private final String content;
+    private final String place;
+    private final Long userId;
+    private final Integer likeCnt;
+    private final LocalDate createDate;
+    private final List<String> imageList;
+    private final List<CommentResponse> commentList;
 
     @Builder
-    public FeedResponse(Feed feed){
+    public FeedDetailResponse(Feed feed){
         Objects.requireNonNull(feed);
         this.id = feed.getId();
+        this.title = feed.getTitle();
         this.content = feed.getContent();
         this.place = feed.getPlace();
         this.userId = feed.getUserId();

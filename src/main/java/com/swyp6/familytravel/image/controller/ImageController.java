@@ -1,6 +1,8 @@
 package com.swyp6.familytravel.image.controller;
 
 import com.swyp6.familytravel.image.service.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +14,12 @@ import static com.swyp6.familytravel.image.service.ImageMediaType.getMediaTypeBy
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/image")
+@Tag(name = "Image")
 public class ImageController {
 
     private final ImageService imageService;
 
+    @Operation(summary = "이미지 다운로드 API", description = "이미지를 다운로드합니다.")
     @GetMapping("/{imageName}")
     public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable(name = "imageName") String imageName){
         byte[] imageBytes = imageService.getImageByteArray(imageName);

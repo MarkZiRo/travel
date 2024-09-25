@@ -19,6 +19,7 @@ import java.util.Objects;
 public class Feed extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     private String content;
     private String place;
     private Long userId;
@@ -33,16 +34,20 @@ public class Feed extends BaseEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Feed(String content, String place, Long userId, List<String> imageList){
+    public Feed(String title, String content, String place, Long userId, List<String> imageList){
+        this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
         this.place = Objects.requireNonNull(place);
         this.userId = Objects.requireNonNull(userId);
         this.imageList = Objects.requireNonNull(imageList);
     }
 
-    public void updateFeedContent(FeedRequest feedRequest){
+    public void updateFeedContent(FeedRequest feedRequest, List<String> imageList){
+        Objects.requireNonNull(feedRequest);
+        this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNullElse(feedRequest.getContent(), content);
         this.place = Objects.requireNonNullElse(feedRequest.getPlace(), place);
+        this.imageList = Objects.requireNonNullElse(imageList, this.imageList);
     }
 
     public void addLike(Long userId){
