@@ -33,7 +33,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/token/issue","/token/validate","index.html").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                         .requestMatchers("token/abc").anonymous()
-                        .anyRequest().authenticated()
+                        .requestMatchers("api/v1/**").authenticated()
+                        .anyRequest().denyAll()
         )
 //        .oauth2Login(oauth2Login -> oauth2Login
 //                .loginPage("/users/login")
