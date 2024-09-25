@@ -6,6 +6,7 @@ import com.swyp6.familytravel.comment.dto.CommentResponse;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.comment.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comment")
 @Tag(name = "Comment")
+@SecurityRequirement(name = "bearerAuth")
 public class CommentController {
 
     private final CommentService commentService;
