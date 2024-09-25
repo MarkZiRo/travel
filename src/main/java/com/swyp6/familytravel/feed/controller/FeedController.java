@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.feed.controller;
 
+import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
 import com.swyp6.familytravel.feed.dto.FeedResponse;
 import com.swyp6.familytravel.feed.entity.Feed;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

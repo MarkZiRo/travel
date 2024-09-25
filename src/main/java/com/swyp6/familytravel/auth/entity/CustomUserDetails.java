@@ -1,4 +1,4 @@
-package com.auth.entity;
+package com.swyp6.familytravel.auth.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,6 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
     private String email;
-
     private String authorities;
 
     public String getRawAuthorities()
@@ -37,16 +36,6 @@ public class CustomUserDetails implements UserDetails {
                 .sorted()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-
-        //    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-
-        //      String[] rawAuthorities = authorities.split(",");
-        //      for(String rawAuthority: rawAuthorities)
-        //    {
-        //      grantedAuthorities.add(new SimpleGrantedAuthority(rawAuthority));
-        //   }
-
-        //    return grantedAuthorities;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.auth.config;
+package com.swyp6.familytravel.auth.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

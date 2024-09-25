@@ -1,7 +1,7 @@
-package com.auth.repository;
+package com.swyp6.familytravel.auth.repository;
 
 
-import com.auth.entity.UserEntity;
+import com.swyp6.familytravel.auth.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.auth.config;
+package com.swyp6.familytravel.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

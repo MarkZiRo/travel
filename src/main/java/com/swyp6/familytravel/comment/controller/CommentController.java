@@ -1,11 +1,13 @@
 package com.swyp6.familytravel.comment.controller;
 
+import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.comment.dto.CommentRequest;
 import com.swyp6.familytravel.comment.dto.CommentResponse;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.comment.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

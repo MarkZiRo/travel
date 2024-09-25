@@ -1,4 +1,4 @@
-package com.auth.entity;
+package com.swyp6.familytravel.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

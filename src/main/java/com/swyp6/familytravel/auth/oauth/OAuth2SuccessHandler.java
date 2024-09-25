@@ -1,8 +1,8 @@
-package com.auth.oauth;
+package com.swyp6.familytravel.auth.oauth;
 
 
-import com.auth.entity.CustomUserDetails;
-import com.auth.jwt.JwtTokenUtils;
+import com.swyp6.familytravel.auth.entity.CustomUserDetails;
+import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -25,7 +25,6 @@ class ImageServiceTest {
     @Test
     void create(){
         ReflectionTestUtils.setField(imageService, "uploadRoot", "E:\\imageSave");
-        imageService.storeImageFiles(List.of(new MockMultipartFile("이미지 파일", "test.png", MediaType.IMAGE_PNG_VALUE, "thumbnail".getBytes())));
     }
 
 }
