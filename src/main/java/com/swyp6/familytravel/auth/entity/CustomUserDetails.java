@@ -1,9 +1,7 @@
 package com.swyp6.familytravel.auth.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.swyp6.familytravel.user.entity.UserEntity;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class CustomUserDetails implements UserDetails {
 
     private Long id;
@@ -23,6 +22,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private String email;
     private String authorities;
+    private String profileImage;
 
     public String getRawAuthorities()
     {
@@ -46,5 +46,17 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public UserEntity toUserEntity() {
+        return UserEntity.builder()
+                .id(id)
+                .username(username)
+                .password(password)
+                .email(email)
+                .authorities(authorities)
+                .profileImage(profileImage)
+                .build();
+
     }
 }
