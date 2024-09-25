@@ -29,7 +29,7 @@ class FeedServiceTest {
         //Given
         //When
         //Then
-        assertThatThrownBy(() -> feedService.updateFeed(1L, null, null))
+        assertThatThrownBy(() -> feedService.updateFeed(1L, 1L, null, null))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Feed 가 없습니다.");
     }

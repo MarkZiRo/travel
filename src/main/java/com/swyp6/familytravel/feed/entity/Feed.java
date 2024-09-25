@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.feed.entity;
 
+import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
@@ -22,7 +23,9 @@ public class Feed extends BaseEntity {
     private String title;
     private String content;
     private String place;
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Long> likeList = new ArrayList<>();
@@ -34,11 +37,11 @@ public class Feed extends BaseEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Feed(String title, String content, String place, Long userId, List<String> imageList){
+    public Feed(String title, String content, String place, UserEntity user, List<String> imageList){
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
         this.place = Objects.requireNonNull(place);
-        this.userId = Objects.requireNonNull(userId);
+        this.user = Objects.requireNonNull(user);
         this.imageList = Objects.requireNonNull(imageList);
     }
 
@@ -51,6 +54,10 @@ public class Feed extends BaseEntity {
     }
 
     public void addLike(Long userId){
+        if(userId.equals(this.user.getId())){
+            throw new IllegalArgumentException("자신의 피드에는 좋아요를 누를 수 없습니다.");
+        }
+
         this.likeList.stream().filter(id -> id.equals(userId)).findFirst()
                 .ifPresent(id -> {
                     throw new IllegalArgumentException("이미 좋아요를 누른 사용자입니다.");
@@ -59,6 +66,10 @@ public class Feed extends BaseEntity {
     }
 
     public void removeLike(Long userId){
+        if(userId.equals(this.user.getId())){
+            throw new IllegalArgumentException("자신의 피드에는 좋아요를 누를 수 없습니다.");
+        }
+
         this.likeList.stream().filter(id -> id.equals(userId)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("좋아요를 누르지 않은 사용자입니다."));
         this.likeList.remove(userId);

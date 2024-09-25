@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.feed.service;
 
+import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.feed.dto.*;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
@@ -25,15 +26,16 @@ public class FeedService {
 
     private final ImageService imageStoreService;
 
-    public FeedDetailResponse createFeed(FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
+    public FeedDetailResponse createFeed(UserEntity user, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
-        Feed newFeed = feedRequest.toFeed(imageFileNames);
+        Feed newFeed = feedRequest.toFeed(user, imageFileNames);
         feedRepository.save(newFeed);
         return new FeedDetailResponse(newFeed);
     }
 
-    public FeedDetailResponse updateFeed(Long id, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
-        Feed feed = feedRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
+    public FeedDetailResponse updateFeed(Long userId, Long feedId, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
+        assert(feed.getUser().getId().equals(userId));
         imageService.deleteImageList(feed.getImageList());
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         feed.updateFeedContent(feedRequest, imageFileNames);
@@ -110,7 +112,7 @@ public class FeedService {
 
     public FeedDetailResponse deleteFeed(Long feedId, Long userId) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
-        assert(feed.getUserId().equals(userId));
+        assert(feed.getUser().getId().equals(userId));
         feedRepository.delete(feed);
         return new FeedDetailResponse(feed);
     }

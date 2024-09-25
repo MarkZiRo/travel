@@ -13,7 +13,6 @@ public class FeedPhotoViewResponse {
     private final String content;
     private final String image;
 
-    @Builder
     public FeedPhotoViewResponse(Feed feed){
         Objects.requireNonNull(feed);
         this.id = feed.getId();
