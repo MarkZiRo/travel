@@ -1,8 +1,8 @@
-package com.swyp6.familytravel.auth.service;
+package com.swyp6.familytravel.user.service;
 
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
-import com.swyp6.familytravel.auth.entity.UserEntity;
-import com.swyp6.familytravel.auth.repository.UserRepository;
+import com.swyp6.familytravel.user.entity.UserEntity;
+import com.swyp6.familytravel.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +29,7 @@ public class JpaUserDetailManager implements UserDetailsManager {
                  .password(passwordEncoder.encode("password1"))
                  .email("user@gmail.com")
                  .authorities("ROLE_USER")
+                 .profileImage("default.png")
                  .build());
      }
 
@@ -43,10 +44,12 @@ public class JpaUserDetailManager implements UserDetailsManager {
         UserEntity userEntity = optionalUser.get();
 
         return CustomUserDetails.builder()
+                .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
                 .email(userEntity.getEmail())
                 .authorities(userEntity.getAuthorities())
+                .profileImage(userEntity.getProfileImage())
                 .build();
     }
 
@@ -62,6 +65,7 @@ public class JpaUserDetailManager implements UserDetailsManager {
                     .password(userDetails.getPassword())
                     .email(userDetails.getEmail())
                     .authorities(userDetails.getRawAuthorities())
+                    .profileImage(userDetails.getProfileImage())
                     .build();
             userRepository.save(newUser);
         } catch (ClassCastException e)

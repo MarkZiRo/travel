@@ -1,7 +1,7 @@
 package com.swyp6.familytravel.auth.filters;
 
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
-import com.swyp6.familytravel.auth.service.JpaUserDetailManager;
+import com.swyp6.familytravel.user.service.JpaUserDetailManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

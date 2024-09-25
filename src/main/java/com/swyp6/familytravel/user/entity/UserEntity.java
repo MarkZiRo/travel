@@ -1,5 +1,6 @@
-package com.swyp6.familytravel.auth.entity;
+package com.swyp6.familytravel.user.entity;
 
+import com.swyp6.familytravel.family.entity.Family;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,10 @@ public class UserEntity {
     private String email;
 
     private String authorities;
+
+    @ManyToOne
+    @JoinColumn(name = "family_id")
+    private Family family;
+
+    private String profileImage;
 }

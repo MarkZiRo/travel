@@ -4,7 +4,7 @@ import com.swyp6.familytravel.auth.filters.JwtTokenFilter;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.auth.oauth.OAuth2SuccessHandler;
 import com.swyp6.familytravel.auth.oauth.OAuth2UserServiceImpl;
-import com.swyp6.familytravel.auth.service.JpaUserDetailManager;
+import com.swyp6.familytravel.user.service.JpaUserDetailManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
