@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.user.service;
 
 import com.swyp6.familytravel.auth.config.AuthenticationFacade;
+import com.swyp6.familytravel.user.dto.CreateUserDto;
 import com.swyp6.familytravel.user.dto.UserResponseDto;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.repository.UserRepository;
@@ -27,6 +28,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username)
                 .map(JpaUserDetailManager::fromEntity)
                 .orElseThrow(()-> new UsernameNotFoundException("not found"));
+    }
+
+    public UserResponseDto createUser(CreateUserDto createUserDto)
+    {
+        UserEntity user = UserEntity.builder()
+                .email(createUserDto.getEmail())
+                .password(createUserDto.getPassword())
+                .username(createUserDto.getUsername())
+                .build();
+
+        return UserResponseDto.fromEntity(userRepository.save(user));
     }
 
     public void uploadProfileImage(MultipartFile image)

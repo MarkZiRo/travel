@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.auth.jwt;
 
+import com.swyp6.familytravel.user.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

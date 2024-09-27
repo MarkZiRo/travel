@@ -1,4 +1,4 @@
-package com.swyp6.check.entity;
+package com.swyp6.familytravel.check.entity;
 
 import com.swyp6.familytravel.travel.entity.Travel;
 import jakarta.persistence.*;

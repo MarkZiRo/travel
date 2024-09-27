@@ -30,7 +30,7 @@ public class TokenController {
         if(!manager.userExists(dto.getUsername()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
-        UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
+            UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
 
         if(!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);

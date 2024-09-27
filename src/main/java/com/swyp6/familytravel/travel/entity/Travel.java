@@ -1,6 +1,6 @@
 package com.swyp6.familytravel.travel.entity;
 
-import com.swyp6.check.entity.Check;
+import com.swyp6.familytravel.check.entity.Check;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.review.entity.Review;
 import jakarta.persistence.*;
