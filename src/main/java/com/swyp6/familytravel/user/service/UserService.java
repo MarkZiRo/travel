@@ -53,7 +53,6 @@ public class UserService implements UserDetailsService {
 
     public UserDto withProfile(UserDto dto)
     {
-
         UserEntity newUser = UserEntity.builder()
                 .email(dto.getEmail())
                 .profileImage(dto.getProfileImage())

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
@@ -19,7 +20,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class WebSecurityConfig {
 
     private final JwtTokenUtils jwtTokenUtils;
-    private final JpaUserDetailManager manager;
+    private final UserDetailsService manager;
     private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
@@ -30,11 +31,16 @@ public class WebSecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
                 auth -> auth
-                        .requestMatchers("/token/issue","/token/validate").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("token/abc").anonymous()
+                        .requestMatchers(
+                                "/token/issue",
+                                "/token/validate",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**")
+                        .permitAll()
                         .requestMatchers("api/v1/**").authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest()
+                        .permitAll()
         )
         .oauth2Login(oauth2Login -> oauth2Login
                 .loginPage("/users/login")

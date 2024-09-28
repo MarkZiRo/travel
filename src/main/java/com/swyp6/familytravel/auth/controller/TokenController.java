@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class TokenController {
 
     private final JwtTokenUtils jwtTokenUtils;
-    private final UserDetailsManager manager;
     private final PasswordEncoder passwordEncoder;
 
 //    @PostMapping("/issue")

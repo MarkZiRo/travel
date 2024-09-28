@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtils jwtTokenUtils;
-    private final JpaUserDetailManager manager;
+    private final UserDetailsService service;
 
 
     @Override
@@ -42,7 +43,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 String username= jwtTokenUtils.parseClaims(token).getSubject();
 
-                UserDetails userDetails = manager.loadUserByUsername(username);
+                UserDetails userDetails = service.loadUserByUsername(username);
                 for(GrantedAuthority authority : userDetails.getAuthorities()){
                     log.info(authority.getAuthority());
                 }
