@@ -24,27 +24,27 @@ public class TokenController {
     private final UserDetailsManager manager;
     private final PasswordEncoder passwordEncoder;
 
-    @PostMapping("/issue")
-    public JwtResponseDto issueJwt(@RequestBody JwtRequestDto dto)
-    {
-        if(!manager.userExists(dto.getUsername()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
-
-        if(!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-//        if(userDetails.getPassword()
-//                .equals(passwordEncoder.encode(dto.getPassword())))
-
-        String jwt = jwtTokenUtils.generateToken(userDetails);
-
-        JwtResponseDto responseDto = new JwtResponseDto();
-        responseDto.setToken(jwt);
-
-        return responseDto;
-    }
+//    @PostMapping("/issue")
+//    public JwtResponseDto issueJwt(@RequestBody JwtRequestDto dto)
+//    {
+//        if(!manager.userExists(dto.getUsername()))
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//
+//        UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
+//
+//        if(!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//
+////        if(userDetails.getPassword()
+////                .equals(passwordEncoder.encode(dto.getPassword())))
+//
+//        String jwt = jwtTokenUtils.generateToken(userDetails);
+//
+//        JwtResponseDto responseDto = new JwtResponseDto();
+//        responseDto.setToken(jwt);
+//
+//        return responseDto;
+//    }
 
 
     @GetMapping("/validate")

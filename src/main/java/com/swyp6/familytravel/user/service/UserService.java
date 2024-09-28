@@ -41,8 +41,6 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDto createUser(CreateUserDto dto) {
 
-        if (!dto.getPassword().equals(dto.getPasswordCheck()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         if (userRepository.existsByEmail(dto.getEmail()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
@@ -51,6 +49,18 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build()));
 
+    }
+
+    public UserDto withProfile(UserDto dto)
+    {
+
+        UserEntity newUser = UserEntity.builder()
+                .email(dto.getEmail())
+                .profileImage(dto.getProfileImage())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .build();
+
+        return UserDto.fromEntity(userRepository.save(newUser));
     }
 
     public JwtResponseDto signin(JwtRequestDto dto) {
@@ -75,5 +85,9 @@ public class UserService implements UserDetailsService {
         userEntity.setUsername(dto.getNickname());
 
         return UserDto.fromEntity(userRepository.save(userEntity));
+    }
+
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 }

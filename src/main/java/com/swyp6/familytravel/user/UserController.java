@@ -37,7 +37,7 @@ public class UserController {
         return userService.createUser(dto);
     }
 
-   @ PostMapping("update")
+    @PostMapping("update")
     public UserDto updateUser(
            @RequestBody
            UpdateUserDto dto

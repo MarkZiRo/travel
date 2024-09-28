@@ -27,6 +27,8 @@ public class UserEntity {
 
     private String profileImage;
 
+    private String nickName;
+
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;

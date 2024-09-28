@@ -3,6 +3,8 @@ package com.swyp6.familytravel.auth.oauth;
 
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
+import com.swyp6.familytravel.user.dto.UserDto;
+import com.swyp6.familytravel.user.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,7 +26,9 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenUtils tokenUtils;
-    private final UserDetailsManager userDetailsManager;
+ //   private final UserDetailsManager userDetailsManager;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void onAuthenticationSuccess(
@@ -43,19 +48,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String providerId = oAuth2User.getAttribute("id").toString();
         String profileImage = oAuth2User.getAttribute("profileImg").toString();
         // 처음으로 이 소셜 로그인으로 로그인을 시도했다.
-        if (!userDetailsManager.userExists(username)) {
+        if (!userService.existsByEmail(username)) {
             // 새 계정을 만들어야 한다.
-            userDetailsManager.createUser(CustomUserDetails.builder()
-                    .username(username)
+            userService.withProfile(UserDto.builder()
                     .email(email)
-                    .password(providerId)
+                    .password(passwordEncoder.encode(providerId))
                     .profileImage(profileImage)
                     .build());
         }
 
         // 데이터베이스에서 사용자 계정 회수
         UserDetails details
-                = userDetailsManager.loadUserByUsername(username);
+                = userService.loadUserByUsername(username);
         // JWT 생성
         String jwt = tokenUtils.generateToken(details);
 
