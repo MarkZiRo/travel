@@ -24,6 +24,16 @@ public class CustomUserDetails implements UserDetails {
     private String authorities;
     private String profileImage;
 
+    @Getter
+    private UserEntity entity;
+
+    public static CustomUserDetails fromEntity(UserEntity entity)
+    {
+        return CustomUserDetails.builder()
+                .entity(entity)
+                .build();
+    }
+
     public String getRawAuthorities()
     {
         return this.authorities;

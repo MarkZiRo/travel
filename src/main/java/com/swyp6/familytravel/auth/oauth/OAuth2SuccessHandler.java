@@ -41,6 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String username
                 = String.format("{%s}%s", provider, email);
         String providerId = oAuth2User.getAttribute("id").toString();
+        String profileImage = oAuth2User.getAttribute("profileImg").toString();
         // 처음으로 이 소셜 로그인으로 로그인을 시도했다.
         if (!userDetailsManager.userExists(username)) {
             // 새 계정을 만들어야 한다.
@@ -48,6 +49,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .username(username)
                     .email(email)
                     .password(providerId)
+                    .profileImage(profileImage)
                     .build());
         }
 

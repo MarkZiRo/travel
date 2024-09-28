@@ -1,6 +1,5 @@
 package com.swyp6.familytravel.user.entity;
 
-import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.family.entity.Family;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +11,7 @@ import lombok.*;
 @Table(name = "user_table")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends BaseEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +30,4 @@ public class UserEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;
-
-
 }

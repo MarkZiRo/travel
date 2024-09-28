@@ -1,8 +1,7 @@
 package com.swyp6.familytravel.auth.filters;
 
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
-import com.swyp6.familytravel.user.service.UserService;
-import com.swyp6.familytravel.user.utils.JpaUserDetailManager;
+import com.swyp6.familytravel.user.service.JpaUserDetailManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtils jwtTokenUtils;
-    private final UserService manager;
+    private final JpaUserDetailManager manager;
 
 
     @Override

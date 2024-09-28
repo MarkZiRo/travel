@@ -4,8 +4,7 @@ import com.swyp6.familytravel.auth.filters.JwtTokenFilter;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.auth.oauth.OAuth2SuccessHandler;
 import com.swyp6.familytravel.auth.oauth.OAuth2UserServiceImpl;
-import com.swyp6.familytravel.user.service.UserService;
-import com.swyp6.familytravel.user.utils.JpaUserDetailManager;
+import com.swyp6.familytravel.user.service.JpaUserDetailManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class WebSecurityConfig {
 
     private final JwtTokenUtils jwtTokenUtils;
-    private final UserService userService;
+    private final JpaUserDetailManager manager;
     private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
@@ -31,11 +30,11 @@ public class WebSecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
                 auth -> auth
-                        .requestMatchers("/token/issue","/token/validate","index.html").permitAll()
+                        .requestMatchers("/token/issue","/token/validate").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                         .requestMatchers("token/abc").anonymous()
                         .requestMatchers("api/v1/**").authenticated()
-                        .anyRequest().denyAll()
+                        .anyRequest().permitAll()
         )
         .oauth2Login(oauth2Login -> oauth2Login
                 .loginPage("/users/login")
@@ -47,7 +46,7 @@ public class WebSecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
         .addFilterBefore(
-                new JwtTokenFilter(jwtTokenUtils, userService), AuthorizationFilter.class
+                new JwtTokenFilter(jwtTokenUtils, manager), AuthorizationFilter.class
         )
         ;
         return http.build();

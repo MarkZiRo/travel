@@ -1,10 +1,10 @@
 package com.swyp6.familytravel.feed.service;
 
-import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.feed.dto.*;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
 import com.swyp6.familytravel.image.service.ImageService;
+import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;

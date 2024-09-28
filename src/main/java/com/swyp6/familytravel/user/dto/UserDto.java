@@ -6,21 +6,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+public class UserDto {
     private Long id;
     private String username;
     private String email;
     private String profileImage;
 
-    public static UserResponseDto fromEntity(UserEntity userEntity){
+    public static UserDto fromEntity(UserEntity userEntity){
 
-        return UserResponseDto.builder()
+        return UserDto.builder()
                 .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .email(userEntity.getEmail())

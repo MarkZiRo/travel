@@ -1,10 +1,7 @@
 package com.swyp6.familytravel.feed.dto;
 
-import com.swyp6.familytravel.user.dto.UserResponseDto;
-import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.comment.dto.CommentResponse;
 import com.swyp6.familytravel.feed.entity.Feed;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
