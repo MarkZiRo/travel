@@ -26,8 +26,6 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
         Map<String , Object> attributes = new HashMap<>();
 
-        int a=0;
-
         if(registrationId.equals("kakao"))
         {
             log.info(oAuth2User.getAttributes().toString());

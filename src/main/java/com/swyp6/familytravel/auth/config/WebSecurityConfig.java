@@ -36,14 +36,16 @@ public class WebSecurityConfig {
                                 "/token/validate",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-resources/**")
+                                "/swagger-resources/**"
+                        )
                         .permitAll()
-                        .requestMatchers("api/v1/**").authenticated()
+                        .requestMatchers("api/v1/**")
+                        .authenticated()
                         .anyRequest()
                         .permitAll()
         )
         .oauth2Login(oauth2Login -> oauth2Login
-                .loginPage("/users/login")
+                .loginPage("/login")
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint(userInfo -> userInfo
                 .userService(oAuth2UserService))

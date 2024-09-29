@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -37,6 +39,11 @@ public class UserService implements UserDetailsService {
                 .map(CustomUserDetails::fromEntity)
                 .orElseThrow(() -> new UsernameNotFoundException("not found"));
     }
+
+    public UserEntity loadUserByEmail(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email);
+    }
+
 
     @Transactional
     public UserDto createUser(CreateUserDto dto) {
@@ -62,20 +69,20 @@ public class UserService implements UserDetailsService {
         return UserDto.fromEntity(userRepository.save(newUser));
     }
 
-    public JwtResponseDto signin(JwtRequestDto dto) {
-        UserEntity userEntity = userRepository.findUserByEmail(dto.getEmail())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
-
-        if (!passwordEncoder.matches(
-                dto.getPassword(),
-                userEntity.getPassword()))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-
-        String jwt = jwtTokenUtils.generateToken(CustomUserDetails.fromEntity(userEntity));
-        JwtResponseDto response = new JwtResponseDto();
-        response.setToken(jwt);
-        return response;
-    }
+//    public JwtResponseDto signin(JwtRequestDto dto) {
+//        UserEntity userEntity = userRepository.findByEmail(dto.getEmail())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+//
+//        if (!passwordEncoder.matches(
+//                dto.getPassword(),
+//                userEntity.getPassword()))
+//            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+//
+//        String jwt = jwtTokenUtils.generateToken(CustomUserDetails.fromEntity(userEntity));
+//        JwtResponseDto response = new JwtResponseDto();
+//        response.setToken(jwt);
+//        return response;
+//    }
 
     @Transactional
     public UserDto updateUser(UpdateUserDto dto){

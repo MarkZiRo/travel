@@ -1,4 +1,4 @@
-package com.swyp6.familytravel.user;
+package com.swyp6.familytravel.user.controller;
 
 import com.swyp6.familytravel.auth.jwt.JwtRequestDto;
 import com.swyp6.familytravel.auth.jwt.JwtResponseDto;
@@ -21,13 +21,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("signin")
-    public JwtResponseDto signIn(
-            @RequestBody
-            JwtRequestDto dto
-    ) {
-        return userService.signin(dto);
-    }
+//    @PostMapping("signin")
+//    public JwtResponseDto signIn(
+//            @RequestBody
+//            JwtRequestDto dto
+//    ) {
+//        return userService.signin(dto);
+//    }
 
     @PostMapping("signup")
     public UserDto signUp(
