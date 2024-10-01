@@ -1,7 +1,10 @@
 package com.swyp6.familytravel.auth.filters;
 
+import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.user.service.JpaUserDetailManager;
+import com.swyp6.familytravel.user.service.UserService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,23 +46,23 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 String username= jwtTokenUtils.parseClaims(token).getSubject();
 
+                log.info(username);
+
+                Claims jwtClaims = jwtTokenUtils
+                        .parseClaims(token);
+
                 UserDetails userDetails = service.loadUserByUsername(username);
-                for(GrantedAuthority authority : userDetails.getAuthorities()){
-                    log.info(authority.getAuthority());
-                }
 
                 AbstractAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(
-//                                CustomUserDetails.builder()
-//                                        .userane(username)
-//                                        .build(),
                                 userDetails,
-                                token, userDetails.getAuthorities()
+                                token
                         );
 
                 context.setAuthentication(authenticationToken);
                 SecurityContextHolder.setContext(context);
 
+                log.info("set security context with jwt");
             }
             else
             {

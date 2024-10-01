@@ -2,8 +2,6 @@ package com.swyp6.familytravel.user.service;
 
 import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
-import com.swyp6.familytravel.auth.jwt.JwtRequestDto;
-import com.swyp6.familytravel.auth.jwt.JwtResponseDto;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.user.dto.CreateUserDto;
 import com.swyp6.familytravel.user.dto.UpdateUserDto;
@@ -21,11 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -41,11 +38,11 @@ public class UserService implements UserDetailsService {
     }
 
     public UserEntity loadUserByEmail(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("not found")
+        );
     }
 
-
-    @Transactional
     public UserDto createUser(CreateUserDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail()))
@@ -58,37 +55,22 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserDto withProfile(UserDto dto)
+    public void withProfile(UserDto dto)
     {
         UserEntity newUser = UserEntity.builder()
                 .email(dto.getEmail())
                 .profileImage(dto.getProfileImage())
+                .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
-        return UserDto.fromEntity(userRepository.save(newUser));
+        UserDto.fromEntity(userRepository.save(newUser));
     }
 
-//    public JwtResponseDto signin(JwtRequestDto dto) {
-//        UserEntity userEntity = userRepository.findByEmail(dto.getEmail())
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
-//
-//        if (!passwordEncoder.matches(
-//                dto.getPassword(),
-//                userEntity.getPassword()))
-//            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-//
-//        String jwt = jwtTokenUtils.generateToken(CustomUserDetails.fromEntity(userEntity));
-//        JwtResponseDto response = new JwtResponseDto();
-//        response.setToken(jwt);
-//        return response;
-//    }
-
-    @Transactional
     public UserDto updateUser(UpdateUserDto dto){
 
         UserEntity userEntity = authFacade.extractUser();
-        userEntity.setUsername(dto.getNickname());
+        userEntity.setNickName(dto.getNickname());
 
         return UserDto.fromEntity(userRepository.save(userEntity));
     }

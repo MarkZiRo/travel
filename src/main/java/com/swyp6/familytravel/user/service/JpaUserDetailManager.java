@@ -44,58 +44,6 @@ public class JpaUserDetailManager implements UserDetails {
                 .build();
     }
 
-    //     public JpaUserDetailManager(UserRepository userRepository, PasswordEncoder passwordEncoder)
-//     {
-//         this.userRepository = userRepository;
-//         createUser(CustomUserDetails.builder()
-//                 .username("user1")
-//                 .password(passwordEncoder.encode("password1"))
-//                 .email("user@gmail.com")
-//                 .authorities("ROLE_USER")
-//                 .profileImage("default.png")
-//                 .build());
-//     }
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//
-//        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-//
-//        if(optionalUser.isEmpty())
-//            throw new UsernameNotFoundException(username);
-//
-//        UserEntity userEntity = optionalUser.get();
-//
-//        return CustomUserDetails.builder()
-//                .id(userEntity.getId())
-//                .username(userEntity.getUsername())
-//                .password(userEntity.getPassword())
-//                .email(userEntity.getEmail())
-//                .authorities(userEntity.getAuthorities())
-//                .profileImage(userEntity.getProfileImage())
-//                .build();
-//    }
-//
-//    @Override
-//    public void createUser(UserDetails user) {
-//        if(userExists(user.getUsername()))
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//
-//        try{
-//            CustomUserDetails userDetails = (CustomUserDetails) user;
-//            UserEntity newUser = UserEntity.builder()
-//                    .username(userDetails.getUsername())
-//                    .password(userDetails.getPassword())
-//                    .email(userDetails.getEmail())
-//                    .authorities(userDetails.getRawAuthorities())
-//                    .profileImage(userDetails.getProfileImage())
-//                    .build();
-//            userRepository.save(newUser);
-//        } catch (ClassCastException e)
-//        {
-//            log.error("failed : {} ", CustomUserDetails.class);
-//        }
-//    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
     return Arrays.stream(entity.getAuthorities().split(","))
