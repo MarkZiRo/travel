@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -28,12 +29,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 @Tag(name = "Feed")
-@SecurityRequirement(name = "bearerAuth")
+@Slf4j
 public class FeedController {
 
     private final FeedService feedService;
 
-    @Operation(summary = "피드 생성 API", description = "이미지 파일과 피드 내용을 받아서 저장하고 피드를 생성합니다.", security = @SecurityRequirement(name = "JWT"))
+    @Operation(summary = "피드 생성 API", description = "이미지 파일과 피드 내용을 받아서 저장하고 피드를 생성합니다.")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FeedDetailResponse createFeed(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -57,7 +58,7 @@ public class FeedController {
 
     @Operation(summary = "피드 조회 API", description = "피드를 조회합니다.")
     @GetMapping("/{feedId}")
-    public FeedDetailResponse getFeed(@PathVariable("feedId") Long feedId) {
+    public FeedDetailResponse getFeed(@PathVariable("feedId") Long feedId){
         return feedService.getFeed(feedId);
     }
 
