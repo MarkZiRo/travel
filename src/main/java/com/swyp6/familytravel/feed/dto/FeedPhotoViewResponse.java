@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.dto;
 
 import com.swyp6.familytravel.feed.entity.Feed;
+
 import lombok.Builder;
 import lombok.Getter;
 

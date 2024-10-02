@@ -36,8 +36,8 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
             attributes.put("id", oAuth2User.getAttribute("id"));
             attributes.put("email", kakaoAccount.get("email"));
-//            attributes.put("nickname", kakaoProfile.get("nickname"));
-//            attributes.put("profileImg", kakaoProfile.get("profile_image_url"));
+            attributes.put("nickname", kakaoProfile.get("nickname"));
+            attributes.put("profileImg", kakaoProfile.get("profile_image_url"));
         }
 
         String nameAttribute = "email";

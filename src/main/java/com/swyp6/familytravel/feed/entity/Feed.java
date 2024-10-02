@@ -4,11 +4,13 @@ import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
+import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

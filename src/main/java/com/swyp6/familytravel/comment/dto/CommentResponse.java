@@ -2,7 +2,6 @@ package com.swyp6.familytravel.comment.dto;
 
 import com.swyp6.familytravel.comment.entity.Comment;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 

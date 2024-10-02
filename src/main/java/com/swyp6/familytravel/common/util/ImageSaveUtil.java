@@ -2,6 +2,7 @@ package com.swyp6.familytravel.common.util;
 
 import com.swyp6.familytravel.image.entity.Image;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

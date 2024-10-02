@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.auth.jwt;
 
+import com.swyp6.familytravel.user.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -25,7 +26,7 @@ public class JwtTokenUtils {
         this.jwtParser = Jwts.parserBuilder().setSigningKey(this.signingKey).build();
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserEntity userDetails) {
         Instant now = Instant.now();
         Claims jwtClaims = Jwts.claims()
                 .setSubject(userDetails.getUsername())

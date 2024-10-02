@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.controller;
 
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
+
 import com.swyp6.familytravel.feed.dto.FeedPhotoViewResponse;
 import com.swyp6.familytravel.feed.dto.FeedPreviewResponse;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;

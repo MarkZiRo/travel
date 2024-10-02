@@ -17,12 +17,25 @@ import java.util.stream.Collectors;
 @ToString
 public class CustomUserDetails implements UserDetails {
 
+    @Getter
+    private String loginId;
     private Long id;
     private String username;
     private String password;
     private String email;
     private String authorities;
     private String profileImage;
+    private String nickname;
+
+    @Getter
+    private UserEntity entity;
+
+    public static CustomUserDetails fromEntity(UserEntity entity)
+    {
+        return CustomUserDetails.builder()
+                .entity(entity)
+                .build();
+    }
 
     public String getRawAuthorities()
     {
@@ -56,7 +69,7 @@ public class CustomUserDetails implements UserDetails {
                 .email(email)
                 .authorities(authorities)
                 .profileImage(profileImage)
+                .nickName(nickname)
                 .build();
-
     }
 }

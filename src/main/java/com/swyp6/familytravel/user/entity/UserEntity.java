@@ -19,15 +19,19 @@ public class UserEntity {
 
     private String username;
 
+    private String name;
+
     private String password;
 
     private String email;
 
     private String authorities;
 
+    private String profileImage;
+
+    private String nickName;
+
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;
-
-    private String profileImage;
 }
