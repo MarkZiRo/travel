@@ -1,10 +1,11 @@
 package com.swyp6.familytravel.feed.controller;
 
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
-import com.swyp6.familytravel.feed.dto.FeedDetailResponse;
+
 import com.swyp6.familytravel.feed.dto.FeedPhotoViewResponse;
 import com.swyp6.familytravel.feed.dto.FeedPreviewResponse;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
+import com.swyp6.familytravel.feed.dto.FeedDetailResponse;
 import com.swyp6.familytravel.feed.service.FeedService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -14,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -19,6 +19,5 @@ public class Family {
 
     @OneToMany(mappedBy = "family")
     private List<UserEntity> userList;
-
     private String profileImage;
 }

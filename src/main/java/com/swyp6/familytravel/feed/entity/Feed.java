@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.feed.entity;
 
+import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.feed.dto.FeedRequest;
