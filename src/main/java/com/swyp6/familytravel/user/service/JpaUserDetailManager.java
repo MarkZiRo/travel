@@ -84,5 +84,4 @@ public class JpaUserDetailManager implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
-
 }

@@ -15,8 +15,6 @@ import org.springframework.stereotype.Component;
 public class AuthenticationFacade {
 
     private final UserRepository userRepository;
-
-
     public Authentication getAuth()
     {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -27,4 +25,5 @@ public class AuthenticationFacade {
                 = (CustomUserDetails) getAuth().getPrincipal();
         return userDetails.getEntity();
     }
+
 }

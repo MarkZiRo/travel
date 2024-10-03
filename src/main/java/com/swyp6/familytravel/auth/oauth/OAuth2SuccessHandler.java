@@ -72,7 +72,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUrl = String.format(
                 "http://localhost:8080/token/validate?token=%s", jwt
         );
-
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

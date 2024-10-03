@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,11 +18,7 @@ public class Family {
     private String familyName;
 
     @OneToMany(mappedBy = "family")
-    private List<UserEntity> userList = new ArrayList<>();
+    private List<UserEntity> userList;
 
     private String profileImage;
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Map<LocalDate, String> anniversary = new HashMap<>();
-
 }

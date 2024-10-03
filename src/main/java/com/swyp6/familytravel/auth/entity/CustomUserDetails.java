@@ -19,7 +19,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Getter
     private String loginId;
-
     private Long id;
     private String username;
     private String password;
