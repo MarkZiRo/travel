@@ -44,3 +44,6 @@ images:
 
 feed:
   page-size: 10
+
+cors:
+  origin: ${ALLOW_ORIGIN}

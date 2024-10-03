@@ -7,6 +7,7 @@ import com.swyp6.familytravel.user.dto.UserDto;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.service.UserService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -67,11 +68,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // JWT 생성
         String jwt = tokenUtils.generateToken(details);
 
+        // JWT를 Cookie에 설정
+        Cookie cookie = new Cookie("JWT", jwt);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(86400); // 1일
+        cookie.setPath("/"); // 모든 경로에서 접근 가능
+        response.addCookie(cookie);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         // 어디로 리다이렉트 할지 지정
-        String targetUrl = String.format(
-                "http://localhost:8080/token/validate?token=%s", jwt
-        );
+        String targetUrl = "http://localhost:5173";
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }
