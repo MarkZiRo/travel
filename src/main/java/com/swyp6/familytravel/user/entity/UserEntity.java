@@ -33,7 +33,7 @@ public class UserEntity {
     private String nickName;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(f)
     @JoinColumn(name = "family_id")
     private Family family;
 }

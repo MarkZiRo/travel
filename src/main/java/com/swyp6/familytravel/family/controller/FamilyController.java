@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/family")
@@ -19,6 +20,17 @@ public class FamilyController {
     {
         return familyService.createFamily(dto);
     }
+
+    @GetMapping("/{id}")
+    public FamilyDto getFamilyById(@PathVariable Long id) {
+        return familyService.getFamilyById(id);
+    }
+
+    @GetMapping("/all")
+    public List<FamilyDto> getAllFamilies() {
+        return familyService.getAllFamilies();
+    }
+
 
     @PutMapping("/{id}/profile")
     public FamilyDto updateProfileImage(@PathVariable Long id,@RequestBody FamilyProfileDto dto) throws AccessDeniedException {

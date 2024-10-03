@@ -41,4 +41,6 @@ public class UserController {
     public UserProfileDto getMyProfile() {
         return userService.getMyProfile();
     }
+
+
 }

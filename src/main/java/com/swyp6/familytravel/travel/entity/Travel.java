@@ -4,6 +4,7 @@ import com.swyp6.familytravel.check.entity.Check;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.review.entity.Review;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "travels")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Travel {
 
     @Id
@@ -24,7 +30,7 @@ public class Travel {
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Check> checklist = new ArrayList<>();;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     private Family family;
 
@@ -34,5 +40,10 @@ public class Travel {
     public void addCheck(Check check) {
         checklist.add(check);
         check.setTravel(this);
+    }
+
+    public void removeCheck(Check check)
+    {
+        checklist.remove(check);
     }
 }

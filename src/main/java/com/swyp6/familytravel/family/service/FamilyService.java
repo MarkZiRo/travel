@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -79,5 +81,18 @@ public class FamilyService {
         userRepository.save(invitedUser);
 
         return FamilyDto.fromEntity(family);
+    }
+
+    public FamilyDto getFamilyById(Long familyId) {
+        Family family = familyRepository.findById(familyId)
+                .orElseThrow(() -> new EntityNotFoundException("Family not found"));
+        return FamilyDto.fromEntity(family);
+    }
+
+    public List<FamilyDto> getAllFamilies() {
+        List<Family> families = familyRepository.findAll();
+        return families.stream()
+                .map(FamilyDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }
