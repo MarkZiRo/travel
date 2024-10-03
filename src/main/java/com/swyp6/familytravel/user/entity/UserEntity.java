@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.swyp6.familytravel.family.entity.Family;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,7 @@ public class UserEntity {
 
     private String nickName;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;
