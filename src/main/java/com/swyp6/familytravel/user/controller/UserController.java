@@ -26,7 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public UserDto signUp(
             @RequestBody
             CreateUserDto dto
@@ -34,7 +34,7 @@ public class UserController {
         return userService.createUser(dto);
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserDto updateUser(
           @RequestBody UpdateUserDto dto
@@ -42,10 +42,8 @@ public class UserController {
         return userService.updateUser(dto);
     }
 
-    @PostMapping("/get")
+    @GetMapping("/get")
     public UserEntity getUser(@AuthenticationPrincipal CustomUserDetails customUserDetails ){
-        log.info("getUser");
-        log.info("{}", customUserDetails.getEntity());
         return customUserDetails.getEntity();
     }
 }

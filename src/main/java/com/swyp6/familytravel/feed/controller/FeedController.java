@@ -41,7 +41,7 @@ public class FeedController {
             @RequestPart(value = "request") FeedRequest feedRequest,
             @RequestPart(value = "imageFiles", required = false)
             Optional<List<MultipartFile>> imageFiles) {
-        return feedService.createFeed(customUserDetails.toUserEntity(), feedRequest, imageFiles);
+        return feedService.createFeed(customUserDetails.getEntity(), feedRequest, imageFiles);
     }
 
     @Operation(summary = "피드 수정 API", description = "이미지 파일과 피드 내용을 받아서 피드를 수정합니다.")
@@ -52,7 +52,7 @@ public class FeedController {
             @Valid
             @RequestPart(value = "request") FeedRequest feedRequest,
             @RequestPart(value = "imageFiles", required = false) Optional<List<MultipartFile>> imageFiles) {
-        return feedService.updateFeed(customUserDetails.getId(), feedId, feedRequest, imageFiles);
+        return feedService.updateFeed(customUserDetails.getEntity().getId(), feedId, feedRequest, imageFiles);
     }
 
     @Operation(summary = "피드 조회 API", description = "피드를 조회합니다.")
@@ -66,7 +66,7 @@ public class FeedController {
     public FeedDetailResponse deleteFeed(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("feedId") Long feedId) {
-        return feedService.deleteFeed(feedId, customUserDetails.getId());
+        return feedService.deleteFeed(feedId, customUserDetails.getEntity().getId());
     }
 
     @Operation(summary = "피드 좋아요 API", description = "피드에 좋아요를 남깁니다. 만약 사용자가 이미 좋아요를 남겼으면 오류를 발생시킵니다.")
@@ -74,7 +74,7 @@ public class FeedController {
     public FeedPreviewResponse likeFeed(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("feedId") Long feedId) {
-        return feedService.likeFeed(feedId, customUserDetails.getId());
+        return feedService.likeFeed(feedId, customUserDetails.getEntity().getId());
     }
 
     @Operation(summary = "피드 좋아요 삭제 API", description = "피드에 좋아요를 지웁니다. 만약 사용자가 좋아요를 남기지 않았다면 오류를 발생시킵니다.")
@@ -82,7 +82,7 @@ public class FeedController {
     public FeedPreviewResponse dislikeFeed(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("feedId") Long feedId) {
-        return feedService.removeLikeFeed(feedId, customUserDetails.getId());
+        return feedService.removeLikeFeed(feedId, customUserDetails.getEntity().getId());
     }
 
     @Operation(summary = "사용자별 피드 추천 API", description = "사용자의 좋아요와 비슷한 피드들을 제공합니다. Pageable을 통해 페이징 처리가 가능합니다.")
@@ -90,13 +90,13 @@ public class FeedController {
     public PageImpl<FeedPreviewResponse> getRecommendFeedList(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             Pageable pageable) {
-        return feedService.getRecommendFeedList(customUserDetails.getId(), pageable);
+        return feedService.getRecommendFeedList(customUserDetails.getEntity().getId(), pageable);
     }
 
     @Operation(summary = "사용자별 피드 리스트 API", description = "사용자가 작성한 피드 리스트를 제공합니다.")
     @GetMapping("/feedList")
     public List<FeedPhotoViewResponse> getUserFeedList(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return feedService.getUserFeedList(customUserDetails.getId());
+        return feedService.getUserFeedList(customUserDetails.getEntity().getId());
     }
 
 }
