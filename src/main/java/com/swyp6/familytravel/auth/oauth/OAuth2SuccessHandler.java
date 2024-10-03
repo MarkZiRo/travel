@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.auth.oauth;
 
 
+import ch.qos.logback.core.util.StringUtil;
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.user.dto.UserDto;
@@ -67,16 +68,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // JWT 생성
         String jwt = tokenUtils.generateToken(details);
 
-        // JWT를 Cookie에 설정
-        Cookie cookie = new Cookie("JWT", jwt);
-        cookie.setHttpOnly(false);
-        cookie.setMaxAge(86400); // 1일
-        cookie.setPath("/"); // 모든 경로에서 접근 가능
-        cookie.setSecure(false);
-        response.addCookie(cookie);
-
         // 어디로 리다이렉트 할지 지정
-        String targetUrl = "http://localhost:5173/";
+        String targetUrl = "http://localhost:3000/auth/?jwt=" + jwt;
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

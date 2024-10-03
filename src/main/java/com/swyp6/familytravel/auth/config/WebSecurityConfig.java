@@ -65,8 +65,7 @@ public class WebSecurityConfig {
         .oauth2Login(oauth2Login -> oauth2Login
                 .loginPage("/login")
                 .successHandler(oAuth2SuccessHandler)
-                .userInfoEndpoint(userInfo -> userInfo
-                .userService(oAuth2UserService))
+                .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
         )
         .exceptionHandling(exceptions -> exceptions
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
