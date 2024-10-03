@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -73,11 +72,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         cookie.setHttpOnly(false);
         cookie.setMaxAge(86400); // 1일
         cookie.setPath("/"); // 모든 경로에서 접근 가능
+        cookie.setSecure(false);
         response.addCookie(cookie);
-        response.setStatus(HttpServletResponse.SC_OK);
 
         // 어디로 리다이렉트 할지 지정
-        String targetUrl = "http://localhost:5173";
+        String targetUrl = "http://localhost:5173/";
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

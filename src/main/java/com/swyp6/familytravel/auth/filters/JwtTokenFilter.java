@@ -46,8 +46,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 String username= jwtTokenUtils.parseClaims(token).getSubject();
 
-                log.info(username);
-
                 Claims jwtClaims = jwtTokenUtils
                         .parseClaims(token);
 
@@ -61,6 +59,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 context.setAuthentication(authenticationToken);
                 SecurityContextHolder.setContext(context);
+                log.info("Username : {}", ((CustomUserDetails)userDetails).getEntity());
                 log.info("set security context with jwt");
             }
             else
