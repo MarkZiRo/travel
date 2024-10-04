@@ -61,6 +61,8 @@ jobs:
                       -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_ID }} \
                       -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
                       -e ALLOW_ORIGIN=${{ secrets.ALLOW_ORIGIN }} \
-                      -p 8080:8080 --name swyp6-back ${{ secrets.DOCKERHUB_USERNAME  }}/swyp6
+                      -p 8080:8080 
+                      -p 443:443 
+                      --name swyp6-back ${{ secrets.DOCKERHUB_USERNAME  }}/swyp6
             sudo docker image prune -f
 

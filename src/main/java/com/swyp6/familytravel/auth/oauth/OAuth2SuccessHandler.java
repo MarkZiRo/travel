@@ -68,6 +68,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // JWT 생성
         String jwt = tokenUtils.generateToken(details);
 
+        // JWT를 쿠키에 담아서 전송
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None");
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        response.addCookie(cookie);
+
         // 어디로 리다이렉트 할지 지정
         String targetUrl = "http://localhost:3000/auth/?jwt=" + jwt;
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
