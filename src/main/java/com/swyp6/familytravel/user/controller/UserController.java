@@ -6,6 +6,7 @@ import com.swyp6.familytravel.auth.jwt.JwtResponseDto;
 import com.swyp6.familytravel.user.dto.CreateUserDto;
 import com.swyp6.familytravel.user.dto.UpdateUserDto;
 import com.swyp6.familytravel.user.dto.UserDto;
+import com.swyp6.familytravel.user.dto.UserResponseDto;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public UserEntity getUser(@AuthenticationPrincipal CustomUserDetails customUserDetails ){
-        return customUserDetails.getEntity();
+    public UserResponseDto getUser(@AuthenticationPrincipal CustomUserDetails customUserDetails ){
+        return new UserResponseDto(customUserDetails.getEntity());
     }
 }
