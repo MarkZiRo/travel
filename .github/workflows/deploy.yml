@@ -9,7 +9,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Deploy to dev
@@ -29,5 +28,6 @@ jobs:
                       -p 8080:8080 \
                       -p 443:443 \
                       -p 80:80  \
+                      -v /image:/image \
                       --name swyp6-back ${{ secrets.DOCKERHUB_USERNAME }}/swyp6
             sudo docker image prune -f
