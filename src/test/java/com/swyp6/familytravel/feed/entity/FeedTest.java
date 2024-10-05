@@ -26,6 +26,7 @@ class FeedTest {
                 .place("place")
                 .content("content")
                 .imageList(new ArrayList<>())
+                .scope(FeedScope.PUBLIC)
                 .build();
     }
 
