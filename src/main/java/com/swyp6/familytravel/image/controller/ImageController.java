@@ -18,7 +18,6 @@ import static com.swyp6.familytravel.image.service.ImageMediaType.getMediaTypeBy
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/image")
-@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Image")
 public class ImageController {
 

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Getter
 public class CommentResponse {
     private Long id;
-    private String username;
+    private String nickname;
     private String profileImage;
     private String comment;
     private Integer likeCnt;
@@ -16,7 +16,7 @@ public class CommentResponse {
 
     public CommentResponse(Comment comment){
         this.id = comment.getId();
-        this.username = comment.getUser().getUsername();
+        this.nickname = comment.getUser().getNickName();
         this.profileImage = comment.getUser().getProfileImage();
         this.comment = comment.getContent();
         this.likeCnt = comment.getLikeCnt();
