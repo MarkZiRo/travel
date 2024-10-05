@@ -1,10 +1,7 @@
 package com.swyp6.familytravel.feed.dto;
 
-import com.swyp6.familytravel.user.dto.UserResponseDto;
-import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.comment.dto.CommentResponse;
 import com.swyp6.familytravel.feed.entity.Feed;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -20,7 +17,7 @@ public class FeedPreviewResponse {
     private final String title;
     private final String content;
     private final String place;
-    private final String username;
+    private final String nickname;
     private final String profileImage;
     private final Integer likeCnt;
     private final LocalDate createDate;
@@ -34,7 +31,7 @@ public class FeedPreviewResponse {
         this.title = feed.getTitle();
         this.content = feed.getContent();
         this.place = feed.getPlace();
-        this.username = feed.getUser().getUsername();
+        this.nickname = feed.getUser().getNickName();
         this.profileImage = feed.getUser().getProfileImage();
         this.likeCnt = feed.getLikeCnt();
         this.createDate = LocalDate.from(feed.getCreatedDateTime());
