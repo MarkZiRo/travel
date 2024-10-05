@@ -1,6 +1,19 @@
 # Dockerfile
 # jdk17 Image Start
 FROM openjdk:17
+
+# 한국 시간 설정
+
+# tzdata 패키지 설치
+RUN apk add --no-cache tzdata
+
+# 시간대 설정
+ENV TZ=Asia/Seoul
+
+# 시간대 링크 생성
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+
 # 환경 변수 설정
 ARG DB_NAME
 ARG MYSQL_USERNAME
