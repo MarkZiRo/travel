@@ -5,7 +5,8 @@ FROM openjdk:17
 # 한국 시간 설정
 
 # tzdata 패키지 설치
-RUN apk add --no-cache tzdata
+RUN apt-get update && apt-get install -y tzdata && \
+    rm -rf /var/lib/apt/lists/*
 
 # 시간대 설정
 ENV TZ=Asia/Seoul
