@@ -15,7 +15,8 @@ public class CustomReqeustMatchers {
             AntPathRequestMatcher.antMatcher("/oauth2"),
             AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
             AntPathRequestMatcher.antMatcher("/swagger-resources/**"),
-            AntPathRequestMatcher.antMatcher("/login")
+            AntPathRequestMatcher.antMatcher("/login"),
+            AntPathRequestMatcher.antMatcher("/api/v1/image/**")
 
     };
 }
