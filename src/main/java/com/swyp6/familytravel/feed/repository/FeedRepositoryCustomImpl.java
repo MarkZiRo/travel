@@ -20,7 +20,6 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom{
         QFeed feed = QFeed.feed;
         return queryFactory.selectFrom(feed)
                 .where(feed.user.id.in(userId))
-                .where(feed.scope.eq(FeedScope.PRIVATE))
                 .orderBy(feed.createdDateTime.desc())
                 .fetch();
     }

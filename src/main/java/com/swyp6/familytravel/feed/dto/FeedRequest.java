@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.feed.dto;
 
+import com.swyp6.familytravel.feed.entity.FeedScope;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.feed.entity.Feed;
 
@@ -20,6 +21,8 @@ public class FeedRequest {
     private String content;
     @NotEmpty
     private String place;
+    @NotNull
+    private Boolean isPublic;
 
     public Feed toFeed(UserEntity user, List<String> imageList){
         return Feed.builder()
@@ -28,6 +31,7 @@ public class FeedRequest {
                 .content(content)
                 .place(place)
                 .imageList(imageList)
+                .scope(isPublic ? FeedScope.PUBLIC : FeedScope.PRIVATE)
                 .build();
     }
 }
