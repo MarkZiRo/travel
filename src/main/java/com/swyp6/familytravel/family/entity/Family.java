@@ -22,7 +22,7 @@ public class Family {
 
     private String familyName;
 
-    @OneToMany(mappedBy = "family")
+    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserEntity> userList = new ArrayList<>();
 
     private String profileImage;
@@ -40,5 +40,10 @@ public class Family {
 
     public void removeTravel(Travel travel) {
         this.travels.remove(travel);
+    }
+
+    public void addUser(UserEntity user) {
+        userList.add(user);
+        user.setFamily(this);  // 양방향 관계 설정
     }
 }

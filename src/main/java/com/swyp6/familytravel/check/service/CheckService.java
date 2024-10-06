@@ -19,12 +19,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class CheckService {
 
+
     private final CheckRepository checkRepository;
     private final TravelRepository travelRepository;
 
     public CheckDto addCheckToTravel(Long travelId, CreateCheckDto dto) {
         Travel travel = travelRepository.findById(travelId)
-                .orElseThrow(() -> new IllegalStateException("Check not found."));
+                .orElseThrow(() -> new IllegalStateException("Travel not found."));
 
         Check check = Check.builder()
                 .checkName(dto.getCheckName())
@@ -38,34 +39,43 @@ public class CheckService {
         return CheckDto.fromEntity(check);
     }
 
-
     public CheckDto updateCheck(Long travelId, Long checkId, UpdateCheckDto dto) {
-
         Travel travel = travelRepository.findById(travelId)
-                .orElseThrow(()->new IllegalStateException("Check not found."));
+                .orElseThrow(() -> new IllegalStateException("Travel not found."));
 
         Check check = checkRepository.findById(checkId)
-                .orElseThrow(() ->new IllegalStateException("Check not found."));
+                .orElseThrow(() -> new IllegalStateException("Check not found."));
+
+        if (!travel.getChecklist().contains(check)) {
+            throw new IllegalStateException("Check does not belong to the specified travel.");
+        }
 
         check.setSuccess(dto.isSuccess());
-
         check = checkRepository.save(check);
         return CheckDto.fromEntity(check);
     }
 
     public void deleteCheck(Long travelId, Long checkId) {
+        Travel travel = travelRepository.findById(travelId)
+                .orElseThrow(() -> new IllegalStateException("Travel not found."));
+
         Check check = checkRepository.findById(checkId)
-                .orElseThrow(() ->new IllegalStateException("Check not found."));
-        checkRepository.delete(check);
+                .orElseThrow(() -> new IllegalStateException("Check not found."));
+
+        if (!travel.getChecklist().contains(check)) {
+            throw new IllegalStateException("Check does not belong to the specified travel.");
+        }
+
+        travel.removeCheck(check);
+        travelRepository.save(travel);
     }
 
     public List<CheckDto> getChecksForTravel(Long travelId) {
         Travel travel = travelRepository.findById(travelId)
-                .orElseThrow(() -> new IllegalStateException("Check not found."));
+                .orElseThrow(() -> new IllegalStateException("Travel not found."));
 
         return travel.getChecklist().stream()
                 .map(CheckDto::fromEntity)
                 .collect(Collectors.toList());
     }
-
 }

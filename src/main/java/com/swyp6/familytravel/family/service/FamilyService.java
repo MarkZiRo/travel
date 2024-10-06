@@ -27,15 +27,14 @@ public class FamilyService {
     public FamilyDto createFamily(CreateFamilyDto dto)
     {
         UserEntity user = facade.extractUser();
+        user = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         if(user.getFamily() != null)
             throw new IllegalArgumentException();
 
         Family family = new Family();
         family.setFamilyName(dto.getFamilyName());
-        family.getUserList().add(user);
-
-        user.setFamily(family);
+        family.addUser(user);
 
         return FamilyDto.fromEntity(familyRepository.save(family));
     }

@@ -11,10 +11,12 @@ import com.swyp6.familytravel.travel.dto.TravelDto;
 import com.swyp6.familytravel.travel.entity.Travel;
 import com.swyp6.familytravel.travel.repository.TravelRepository;
 import com.swyp6.familytravel.user.entity.UserEntity;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +32,14 @@ public class TravelService {
     public TravelDto createTravel(CreateTravelDto dto)
     {
         UserEntity user = authFacade.extractUser();
-        Family family = user.getFamily();
+        Family family = familyRepository.findById(user.getFamily().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Family not found"));
 
         Travel travel = Travel.builder()
                 .name(dto.getName())
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())
+                .checklist(new ArrayList<>())
                 .build();
 
         family.addTravel(travel);
@@ -52,7 +56,10 @@ public class TravelService {
 
     public List<TravelDto> getAllTravelsForFamily() {
         UserEntity user = authFacade.extractUser();
-        Family family = user.getFamily();
+
+        Family family = familyRepository.findById(user.getFamily().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Family not found"));
+
         return family.getTravels().stream()
                 .map(TravelDto::fromEntity)
                 .collect(Collectors.toList());

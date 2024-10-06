@@ -1,9 +1,7 @@
 package com.swyp6.familytravel.family.DTO;
 
 import com.swyp6.familytravel.family.entity.Family;
-import com.swyp6.familytravel.user.entity.UserEntity;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
+import com.swyp6.familytravel.user.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,7 +19,7 @@ public class FamilyDto {
 
     private Long id;
     private String familyName;
-    private List<UserEntity> userList;
+    private List<UserDto> userList;
     private String profileImage;
     private Map<LocalDate, String> anniversary;
 
@@ -29,7 +28,9 @@ public class FamilyDto {
         return FamilyDto.builder()
                 .id(family.getId())
                 .familyName(family.getFamilyName())
-                .userList(family.getUserList())
+                .userList(family.getUserList().stream()
+                        .map(UserDto::fromEntity)  // UserDto로 변환
+                        .collect(Collectors.toList()))
                 .profileImage(family.getProfileImage())
                 .anniversary(family.getAnniversary())
                 .build();

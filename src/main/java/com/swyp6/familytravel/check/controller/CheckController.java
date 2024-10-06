@@ -14,29 +14,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CheckController {
 
-    private CheckService checkService;
+    private final CheckService checkService;
 
     @PostMapping
-    public CheckDto createCheck(@PathVariable Long travelId, @RequestBody CreateCheckDto dto)
-    {
+    public CheckDto createCheck(@PathVariable Long travelId, @RequestBody CreateCheckDto dto) {
         return checkService.addCheckToTravel(travelId, dto);
     }
 
     @GetMapping
-    public List<CheckDto> getChecksForTravel(@PathVariable Long travelId)
-    {
+    public List<CheckDto> getChecksForTravel(@PathVariable Long travelId) {
         return checkService.getChecksForTravel(travelId);
     }
 
     @PutMapping("/{checkId}")
-    public CheckDto updateCheck( @PathVariable String travelId, @PathVariable Long checkId, @RequestBody UpdateCheckDto dto)
-    {
-        return checkService.updateCheck(checkId, dto);
+    public CheckDto updateCheck(@PathVariable Long travelId, @PathVariable Long checkId, @RequestBody UpdateCheckDto dto) {
+        return checkService.updateCheck(travelId, checkId, dto);
     }
 
     @DeleteMapping("/{checkId}")
-    public void deleteCheck(@PathVariable String travelId, @PathVariable Long checkId) {
-        checkService.deleteCheck(checkId);
+    public void deleteCheck(@PathVariable Long travelId, @PathVariable Long checkId) {
+        checkService.deleteCheck(travelId, checkId);
     }
-
 }
