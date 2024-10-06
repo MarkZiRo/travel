@@ -10,24 +10,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserProfileDto {
 
-    private Long id;
     private String username;
+    private String nickname;
     private String email;
     private String profileImage;
-    private String nickname;
-    private String password;
 
-    public static UserDto fromEntity(UserEntity userEntity){
-
-        return UserDto.builder()
-                .id(userEntity.getId())
-                .password(userEntity.getPassword())
+    public static UserProfileDto fromEntity(UserEntity userEntity)
+    {
+        return UserProfileDto.builder()
                 .username(userEntity.getUsername())
+                .nickname(userEntity.getNickName())
                 .email(userEntity.getEmail())
                 .profileImage(userEntity.getProfileImage())
-                .nickname(userEntity.getNickName())
                 .build();
     }
 }

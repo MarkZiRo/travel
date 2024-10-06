@@ -2,8 +2,7 @@ package com.swyp6.familytravel.review.entity;
 
 import com.swyp6.familytravel.travel.entity.Travel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -11,6 +10,9 @@ import java.time.LocalDate;
 @Table(name = "reviews")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
 
     @Id
