@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @Order(value = 1)
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<Object> entityNotFoundException(Exception exception) {
-        log.error("EntityNotFoundException: {} {}", exception.getMessage(), exception.getStackTrace());
+        log.error("EntityNotFoundException: {} {}", exception.getMessage());
         return ResponseEntity
                 .status(400)
                 .body(
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Object> globalException(Exception exception) {
-        log.error("EntityNotFoundException: {} {}", exception.getMessage(), exception.getStackTrace());
+        log.error("EntityNotFoundException: {} {}", exception.getMessage());
 
         return ResponseEntity
                 .status(500)
