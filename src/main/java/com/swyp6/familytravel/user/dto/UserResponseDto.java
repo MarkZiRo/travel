@@ -1,7 +1,6 @@
 package com.swyp6.familytravel.user.dto;
 
 import com.swyp6.familytravel.user.entity.UserEntity;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -13,6 +12,11 @@ public class UserResponseDto {
     private String email;
     private String profileImage;
     private String nickName;
+    private Long familyId;
+
+    public static UserResponseDto fromEntity(UserEntity userEntity){
+        return new UserResponseDto(userEntity);
+    }
 
     public UserResponseDto(UserEntity userEntity){
         Objects.requireNonNull(userEntity);
@@ -21,5 +25,6 @@ public class UserResponseDto {
         this.email = Objects.requireNonNull(userEntity.getEmail());
         this.nickName = Objects.requireNonNull(userEntity.getNickName());
         this.profileImage = Objects.requireNonNull(userEntity.getProfileImage());
+        this.familyId = userEntity.getFamily() == null ? null :  Objects.requireNonNull(userEntity.getFamily().getId());
     }
 }
