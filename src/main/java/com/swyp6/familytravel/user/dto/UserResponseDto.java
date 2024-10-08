@@ -23,7 +23,7 @@ public class UserResponseDto {
         this.id = Objects.requireNonNull(userEntity.getId());
         this.username = Objects.requireNonNull(userEntity.getUsername());
         this.email = Objects.requireNonNull(userEntity.getEmail());
-        this.nickName = Objects.requireNonNull(userEntity.getNickName());
+        this.nickName = userEntity.getNickName();
         this.profileImage = Objects.requireNonNull(userEntity.getProfileImage());
         this.familyId = userEntity.getFamily() == null ? null :  Objects.requireNonNull(userEntity.getFamily().getId());
     }
