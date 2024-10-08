@@ -37,7 +37,7 @@ public class FeedDetailResponse {
         this.createDate = LocalDate.from(feed.getCreatedDateTime());
         this.imageList = feed.getImageList();
         this.commentList = feed.getCommentList().stream().map(CommentResponse::new).toList();
-        this.isLiked = feed.getLikeList().contains(feed.getUser().getId());
+        this.isLiked = feed.getLikeList().contains(feed.getId());
 
     }
 
