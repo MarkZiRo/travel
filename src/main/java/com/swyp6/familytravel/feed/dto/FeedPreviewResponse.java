@@ -39,6 +39,6 @@ public class FeedPreviewResponse {
         this.imageList = feed.getImageList();
         this.commentList = feed.getCommentList().stream().limit(PREVIEW_COMMENT_NUM).map(CommentResponse::new).toList();
         this.commentCount = feed.getCommentList().size();
-        this.isLiked = feed.getLikeList().contains(feed.getUser().getId());
+        this.isLiked = feed.getLikeList().contains(feed.getId());
     }
 }
