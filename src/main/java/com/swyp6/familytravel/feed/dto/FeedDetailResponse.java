@@ -23,6 +23,7 @@ public class FeedDetailResponse {
     private final LocalDate createDate;
     private final List<String> imageList;
     private final List<CommentResponse> commentList;
+    private final Boolean isLiked;
 
     public FeedDetailResponse(Feed feed){
         Objects.requireNonNull(feed);
@@ -36,6 +37,8 @@ public class FeedDetailResponse {
         this.createDate = LocalDate.from(feed.getCreatedDateTime());
         this.imageList = feed.getImageList();
         this.commentList = feed.getCommentList().stream().map(CommentResponse::new).toList();
+        this.isLiked = feed.getLikeList().contains(feed.getUser().getId());
+
     }
 
 }

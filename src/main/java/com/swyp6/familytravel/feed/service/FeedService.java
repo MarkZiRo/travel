@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.service;
 
 
+import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.feed.dto.*;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.entity.FeedScope;
@@ -118,15 +119,10 @@ public class FeedService {
         feedRepository.delete(feed);
     }
 
-    // TODO 가족 생성이 완료되면 가족 피드를 가져올 수 있도록 수정
     public PageImpl<FeedPreviewResponse> getFeedListFamily(UserEntity user, Pageable pageable) {
-        List<Long> familyUserList = user.getFamily().getUserList().stream().map(UserEntity::getId).toList();
+        Family family = user.getFamily();
+        List<Long> familyUserList = (family == null) ? List.of(user.getId()) : family.getUserList().stream().map(UserEntity::getId).toList();
         List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(familyUserList).stream().map(FeedPreviewResponse::new).toList();
-        return feedListToPageable(pageable, familyFeeds);
-    }
-
-    public PageImpl<FeedPreviewResponse> getFeedListFamily(Long userId, Pageable pageable) {
-        List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(List.of(userId)).stream().map(FeedPreviewResponse::new).toList();
         return feedListToPageable(pageable, familyFeeds);
     }
 

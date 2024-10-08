@@ -103,7 +103,7 @@ public class FeedController {
     public PageImpl<FeedPreviewResponse> getFamilyFeedList(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             Pageable pageable) {
-        return feedService.getFeedListFamily(customUserDetails.getEntity().getId(), pageable);
+        return feedService.getFeedListFamily(customUserDetails.getEntity(), pageable);
     }
 
 
