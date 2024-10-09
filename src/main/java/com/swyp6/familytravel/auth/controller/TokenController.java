@@ -53,4 +53,10 @@ public class TokenController {
 
         return jwtTokenUtils.parseClaims(token);
     }
+
+    @GetMapping("/test")
+    public void test(@RequestParam("token") String token)
+    {
+
+    }
 }
