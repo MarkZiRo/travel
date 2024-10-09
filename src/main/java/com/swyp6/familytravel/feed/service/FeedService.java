@@ -35,7 +35,7 @@ public class FeedService {
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         Feed newFeed = feedRequest.toFeed(user, imageFileNames);
         feedRepository.save(newFeed);
-        return new FeedDetailResponse(newFeed);
+        return new FeedDetailResponse(user.getId(), newFeed);
     }
 
     public FeedDetailResponse updateFeed(Long userId, Long feedId, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
@@ -44,30 +44,30 @@ public class FeedService {
         imageService.deleteImageList(feed.getImageList());
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         feed.updateFeedContent(feedRequest, imageFileNames);
-        return new FeedDetailResponse(feed);
+        return new FeedDetailResponse(userId, feed);
     }
 
     @Transactional(readOnly = true)
-    public FeedDetailResponse getFeed(Long feedId) {
+    public FeedDetailResponse getFeed(Long feedId, Long userId) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
-        return new FeedDetailResponse(feed);
+        return new FeedDetailResponse(userId, feed);
     }
 
     public FeedPreviewResponse likeFeed(Long feedId, Long userId) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.addLike(userId);
-        return new FeedPreviewResponse(feed);
+        return new FeedPreviewResponse(userId, feed);
     }
 
     public FeedPreviewResponse removeLikeFeed(Long feedId, Long userId) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.removeLike(userId);
-        return new FeedPreviewResponse(feed);
+        return new FeedPreviewResponse(userId, feed);
     }
 
     public PageImpl<FeedPreviewResponse> getUserFeedList(Long userId, Pageable pageable){
         List<FeedPreviewResponse> userFeedList = feedRepository.findByUserIdOrderByCreatedDateTimeDesc(userId)
-                .stream().map(FeedPreviewResponse::new).toList();
+                .stream().map((feed -> new FeedPreviewResponse(userId, feed))).toList();
         return feedListToPageable(pageable, userFeedList);
 
     }
@@ -86,9 +86,9 @@ public class FeedService {
                 .map(feed -> new FeedSimilarity(feed, calculateAverageSimilarity(feed, likedFeeds)))
                 .sorted(Comparator.comparing(FeedSimilarity::similarity).reversed())
                 .map(FeedSimilarity::feed)
-                .map(FeedPreviewResponse::new)
+                .map(feed -> new FeedPreviewResponse(userId, feed))
                 .toList());
-        List<FeedPreviewResponse> likedFeedPreviewResponse = likedFeeds.stream().map(FeedPreviewResponse::new).toList();
+        List<FeedPreviewResponse> likedFeedPreviewResponse = likedFeeds.stream().map(feed -> new FeedPreviewResponse(userId, feed)).toList();
         feedPreviewResponseList.addAll(likedFeedPreviewResponse);
         return feedPreviewResponseList;
     }
@@ -122,7 +122,7 @@ public class FeedService {
     public PageImpl<FeedPreviewResponse> getFeedListFamily(UserEntity user, Pageable pageable) {
         Family family = user.getFamily();
         List<Long> familyUserList = (family == null) ? List.of(user.getId()) : family.getUserList().stream().map(UserEntity::getId).toList();
-        List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(familyUserList).stream().map(FeedPreviewResponse::new).toList();
+        List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(familyUserList).stream().map(feed -> new FeedPreviewResponse(user.getId(), feed)).toList();
         return feedListToPageable(pageable, familyFeeds);
     }
 

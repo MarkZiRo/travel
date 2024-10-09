@@ -26,7 +26,7 @@ public class FeedPreviewResponse {
     private final Integer commentCount;
     private final Boolean isLiked;
 
-    public FeedPreviewResponse(Feed feed){
+    public FeedPreviewResponse(Long userId, Feed feed){
         Objects.requireNonNull(feed);
         this.id = feed.getId();
         this.title = feed.getTitle();
@@ -39,6 +39,6 @@ public class FeedPreviewResponse {
         this.imageList = feed.getImageList();
         this.commentList = feed.getCommentList().stream().limit(PREVIEW_COMMENT_NUM).map(CommentResponse::new).toList();
         this.commentCount = feed.getCommentList().size();
-        this.isLiked = feed.getLikeList().contains(feed.getId());
+        this.isLiked = feed.getLikeList().contains(userId);
     }
 }

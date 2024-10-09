@@ -62,8 +62,10 @@ public class FeedController {
 
     @Operation(summary = "피드 조회 API", description = "피드를 조회합니다.", security = @SecurityRequirement(name = "JWT"))
     @GetMapping("/{feedId}")
-    public FeedDetailResponse getFeed(@PathVariable("feedId") Long feedId){
-        return feedService.getFeed(feedId);
+    public FeedDetailResponse getFeed(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("feedId") Long feedId){
+        return feedService.getFeed(feedId, customUserDetails.getEntity().getId());
     }
 
     @Operation(summary = "피드 삭제 API", description = "피드를 삭제합니다.")
