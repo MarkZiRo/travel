@@ -49,9 +49,14 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByEmail(dto.getEmail()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
+        if (userRepository.existsByUsername(dto.getName()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username already exists");
+
         return UserDto.fromEntity(userRepository.save(UserEntity.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
+                .username(dto.getName())
+                .profileImage(dto.getProfileImage())
                 .build()));
 
     }
