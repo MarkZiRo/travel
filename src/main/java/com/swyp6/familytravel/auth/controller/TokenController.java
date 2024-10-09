@@ -4,6 +4,8 @@ package com.swyp6.familytravel.auth.controller;
 import com.swyp6.familytravel.auth.jwt.JwtRequestDto;
 import com.swyp6.familytravel.auth.jwt.JwtResponseDto;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
+import com.swyp6.familytravel.user.entity.UserEntity;
+import com.swyp6.familytravel.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,28 +24,25 @@ public class TokenController {
 
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-//    @PostMapping("/issue")
-//    public JwtResponseDto issueJwt(@RequestBody JwtRequestDto dto)
-//    {
-//        if(!manager.userExists(dto.getUsername()))
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-//
-//        UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
-//
-//        if(!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-//
-////        if(userDetails.getPassword()
-////                .equals(passwordEncoder.encode(dto.getPassword())))
-//
-//        String jwt = jwtTokenUtils.generateToken(userDetails);
-//
-//        JwtResponseDto responseDto = new JwtResponseDto();
-//        responseDto.setToken(jwt);
-//
-//        return responseDto;
-//    }
+    @PostMapping("/issue")
+    public JwtResponseDto issueJwt(@RequestBody JwtRequestDto dto)
+    {
+
+        UserEntity details
+                = userService.loadUserByEmail(dto.getEmail());
+
+        if(!passwordEncoder.matches(dto.getPassword(), details.getPassword()))
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        String jwt = jwtTokenUtils.generateToken(details);
+
+        JwtResponseDto responseDto = new JwtResponseDto();
+        responseDto.setToken(jwt);
+
+        return responseDto;
+    }
 
 
     @GetMapping("/validate")
