@@ -52,6 +52,7 @@ public class UserService implements UserDetailsService {
         return UserDto.fromEntity(userRepository.save(UserEntity.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
+                .username(dto.getName())
                 .build()));
 
     }
