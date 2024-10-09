@@ -3,6 +3,7 @@ package com.swyp6.familytravel.travel.controller;
 import com.swyp6.familytravel.travel.dto.CreateTravelDto;
 import com.swyp6.familytravel.travel.dto.TravelDto;
 import com.swyp6.familytravel.travel.service.TravelService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,24 +16,28 @@ public class TravelController {
 
     private final TravelService travelService;
 
+    @Operation(summary = "여행 생성 API", description = "여행을 생성합니다.")
     @PostMapping
     public TravelDto createTravel(@RequestBody CreateTravelDto dto)
     {
         return  travelService.createTravel(dto);
     }
 
+    @Operation(summary = "여행 정보 API", description = "여행정보를 가져옵니다.")
     @GetMapping("/{id}")
     public TravelDto getTravel(@PathVariable Long id)
     {
         return travelService.getTravel(id);
     }
 
+    @Operation(summary = "여행 정보 API", description = "여행정보를 모두 가져옵니다.")
     @GetMapping("/all")
     public List<TravelDto> getAllTravels()
     {
         return travelService.getAllTravelsForFamily();
     }
 
+    @Operation(summary = "여행 삭제 API", description = "여행정보를 삭제합니다.")
     @DeleteMapping("/{id}")
     public void deleteTravel(@PathVariable Long id)
     {
