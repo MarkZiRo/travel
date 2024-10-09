@@ -7,6 +7,7 @@ import com.swyp6.familytravel.user.dto.UpdateUserDto;
 import com.swyp6.familytravel.user.dto.UserDto;
 import com.swyp6.familytravel.user.dto.UserProfileDto;
 import com.swyp6.familytravel.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "유저 생성 API", description = "유저를 생성합니다.")
     @PostMapping("signup")
     public UserDto signUp(
             @RequestBody
@@ -29,6 +31,7 @@ public class UserController {
         return userService.createUser(dto);
     }
 
+    @Operation(summary = "유저 닉네임 API", description = "유저의 닉네임을 정합니다.")
     @PostMapping("update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserDto updateUser(
@@ -37,6 +40,7 @@ public class UserController {
         return userService.updateUser(dto);
     }
 
+    @Operation(summary = "유저 프로필 API", description = "유저의 프로필을 가져옵니다.")
     @GetMapping("/my-profile")
     public UserProfileDto getMyProfile() {
         return userService.getMyProfile();

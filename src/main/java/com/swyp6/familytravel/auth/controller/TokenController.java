@@ -7,6 +7,8 @@ import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.service.UserService;
 import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ public class TokenController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
+    @Operation(summary = "토큰 생성 API", description = "email(name)과 password를 받아 토큰을 생성합니다.", security = @SecurityRequirement(name = "JWT"))
     @PostMapping("/issue")
     public JwtResponseDto issueJwt(@RequestBody JwtRequestDto dto)
     {
@@ -44,7 +47,7 @@ public class TokenController {
         return responseDto;
     }
 
-
+    @Operation(summary = "토큰 검증 API", description = "토큰을 검증합니다.", security = @SecurityRequirement(name = "JWT"))
     @GetMapping("/validate")
     public Claims validateToken(@RequestParam("token") String token)
     {
