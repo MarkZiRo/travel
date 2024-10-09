@@ -38,12 +38,15 @@ public class Feed extends BaseEntity {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comment> commentList = new ArrayList<>();
 
+    private FeedScope scope = FeedScope.PUBLIC;
+
     @Builder
-    public Feed(String title, String content, String place, UserEntity user, List<String> imageList){
+    public Feed(String title, String content, String place, UserEntity user, List<String> imageList, FeedScope scope) {
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
         this.place = Objects.requireNonNull(place);
         this.user = Objects.requireNonNull(user);
+        this.scope = Objects.requireNonNull(scope);
         this.imageList = Objects.requireNonNull(imageList);
     }
 

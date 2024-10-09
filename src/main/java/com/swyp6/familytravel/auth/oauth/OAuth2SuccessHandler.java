@@ -1,18 +1,19 @@
 package com.swyp6.familytravel.auth.oauth;
 
 
+import ch.qos.logback.core.util.StringUtil;
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
 import com.swyp6.familytravel.user.dto.UserDto;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.service.UserService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -67,11 +68,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // JWT 생성
         String jwt = tokenUtils.generateToken(details);
 
+        // JWT를 쿠키에 담아서 전송
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None");
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        response.addCookie(cookie);
 
         // 어디로 리다이렉트 할지 지정
-        String targetUrl = String.format(
-                "http://localhost:8080/token/validate?token=%s", jwt
-        );
+        String targetUrl = "http://13.209.88.22:3000/auth/?jwt=" + jwt;
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }
