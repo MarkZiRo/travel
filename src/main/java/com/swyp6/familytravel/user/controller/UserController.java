@@ -1,15 +1,14 @@
 package com.swyp6.familytravel.user.controller;
 
 
-import com.swyp6.familytravel.user.dto.CreateUserDto;
-import com.swyp6.familytravel.user.dto.UpdateUserDto;
-import com.swyp6.familytravel.user.dto.UserDto;
-import com.swyp6.familytravel.user.dto.UserProfileDto;
+import com.swyp6.familytravel.auth.entity.CustomUserDetails;
+import com.swyp6.familytravel.user.dto.*;
 import com.swyp6.familytravel.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -39,10 +38,9 @@ public class UserController {
     }
 
     @Operation(summary = "유저 프로필 API", description = "유저의 프로필을 가져옵니다.")
-    @GetMapping("/my-profile")
-    public UserProfileDto getMyProfile() {
+    @GetMapping("/get")
+    public UserResponseDto getMyProfile() {
         return userService.getMyProfile();
     }
-
 
 }
