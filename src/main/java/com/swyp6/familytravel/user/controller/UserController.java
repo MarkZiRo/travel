@@ -1,33 +1,27 @@
 package com.swyp6.familytravel.user.controller;
 
-import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtRequestDto;
 import com.swyp6.familytravel.auth.jwt.JwtResponseDto;
 import com.swyp6.familytravel.user.dto.CreateUserDto;
 import com.swyp6.familytravel.user.dto.UpdateUserDto;
 import com.swyp6.familytravel.user.dto.UserDto;
-import com.swyp6.familytravel.user.dto.UserResponseDto;
-import com.swyp6.familytravel.user.entity.UserEntity;
+import com.swyp6.familytravel.user.dto.UserProfileDto;
 import com.swyp6.familytravel.user.service.UserService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping("signup")
     public UserDto signUp(
             @RequestBody
             CreateUserDto dto
@@ -35,7 +29,7 @@ public class UserController {
         return userService.createUser(dto);
     }
 
-    @PostMapping("/update")
+    @PostMapping("update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserDto updateUser(
           @RequestBody UpdateUserDto dto
@@ -43,8 +37,10 @@ public class UserController {
         return userService.updateUser(dto);
     }
 
-    @GetMapping("/get")
-    public UserResponseDto getUser(@AuthenticationPrincipal CustomUserDetails customUserDetails ){
-        return new UserResponseDto(customUserDetails.getEntity());
+    @GetMapping("/my-profile")
+    public UserProfileDto getMyProfile() {
+        return userService.getMyProfile();
     }
+
+
 }
