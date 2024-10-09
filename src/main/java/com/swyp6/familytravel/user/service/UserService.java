@@ -53,6 +53,7 @@ public class UserService implements UserDetailsService {
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .username(dto.getName())
+                .profileImage(dto.getProfileImage())
                 .build()));
 
     }
