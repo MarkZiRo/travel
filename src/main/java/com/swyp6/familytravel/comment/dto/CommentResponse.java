@@ -13,13 +13,15 @@ public class CommentResponse {
     private String comment;
     private Integer likeCnt;
     private LocalDate createdAt;
+    private Boolean isLiked;
 
-    public CommentResponse(Comment comment){
+    public CommentResponse(Long userId, Comment comment){
         this.id = comment.getId();
         this.nickname = comment.getUser().getNickName();
         this.profileImage = comment.getUser().getProfileImage();
         this.comment = comment.getContent();
         this.likeCnt = comment.getLikeCnt();
         this.createdAt = comment.getCreatedDateTime().toLocalDate();
+        this.isLiked = comment.getLikeList().contains(userId);
     }
 }

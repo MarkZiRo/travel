@@ -30,7 +30,7 @@ public class CommentService {
                 .feed(feed)
                 .build();
         commentRepository.save(comment);
-        return new CommentResponse(comment);
+        return new CommentResponse(user.getId(), comment);
     }
 
     public CommentResponse updateComment(Long commentId, String content) {
@@ -38,7 +38,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
         assert(comment.getUser().getId().equals(userId));
         comment.updateComment(content);
-        return new CommentResponse(comment);
+        return new CommentResponse(userId, comment);
     }
 
     public void deleteComment(Long commentId) {
@@ -53,13 +53,13 @@ public class CommentService {
         Long userId = authenticationFacade.extractUser().getId();
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
         comment.addLike(userId);
-        return new CommentResponse(comment);
+        return new CommentResponse(userId, comment);
     }
 
     public CommentResponse removeLike(Long commentId) {
         Long userId = authenticationFacade.extractUser().getId();
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
         comment.removeLike(userId);
-        return new CommentResponse(comment);
+        return new CommentResponse(userId, comment);
     }
 }
