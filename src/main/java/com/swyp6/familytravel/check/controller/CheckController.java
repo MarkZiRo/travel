@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{travelId}/checks")
+@RequestMapping("/api/v1/{travelId}/checks")
 @RequiredArgsConstructor
 public class CheckController {
 
