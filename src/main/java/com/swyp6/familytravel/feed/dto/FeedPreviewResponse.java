@@ -37,7 +37,7 @@ public class FeedPreviewResponse {
         this.likeCnt = feed.getLikeCnt();
         this.createDate = LocalDate.from(feed.getCreatedDateTime());
         this.imageList = feed.getImageList();
-        this.commentList = feed.getCommentList().stream().limit(PREVIEW_COMMENT_NUM).map(CommentResponse::new).toList();
+        this.commentList = feed.getCommentList().stream().limit(PREVIEW_COMMENT_NUM).map((comment -> new CommentResponse(userId, comment))).toList();
         this.commentCount = feed.getCommentList().size();
         this.isLiked = feed.getLikeList().contains(userId);
     }
