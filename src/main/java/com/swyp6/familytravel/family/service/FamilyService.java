@@ -4,12 +4,14 @@ import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.family.DTO.*;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.family.repository.FamilyRepository;
+import com.swyp6.familytravel.image.service.ImageService;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
@@ -23,6 +25,7 @@ public class FamilyService {
     private final FamilyRepository familyRepository;
     private final UserRepository userRepository;
     private final AuthenticationFacade facade;
+    private final ImageService imageService;
 
     public FamilyDto createFamily(CreateFamilyDto dto)
     {
@@ -30,7 +33,7 @@ public class FamilyService {
         user = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         if(user.getFamily() != null)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("가족이 이미 존재합니다.");
 
         Family family = new Family();
         family.setFamilyName(dto.getFamilyName());
@@ -39,13 +42,14 @@ public class FamilyService {
         return FamilyDto.fromEntity(familyRepository.save(family));
     }
 
-    public FamilyDto updateFamilyProfile(Long familyId, FamilyProfileDto dto) throws AccessDeniedException {
-        Family family = familyRepository.findById(familyId)
-                .orElseThrow(()-> new EntityNotFoundException("not found"));
-
+    public FamilyDto updateFamilyProfile(MultipartFile imageFile) throws AccessDeniedException {
         UserEntity userEntity = facade.extractUser();
 
-        family.setProfileImage(dto.getFamilyProfile());
+        Family family = userEntity.getFamily();
+
+        String imageFileName = imageService.storeImageFile(imageFile);
+
+        family.setProfileImage(imageFileName);
 
         return FamilyDto.fromEntity(familyRepository.save(family));
 

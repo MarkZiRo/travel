@@ -3,10 +3,7 @@ package com.swyp6.familytravel.user.service;
 import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.auth.entity.CustomUserDetails;
 import com.swyp6.familytravel.auth.jwt.JwtTokenUtils;
-import com.swyp6.familytravel.user.dto.CreateUserDto;
-import com.swyp6.familytravel.user.dto.UpdateUserDto;
-import com.swyp6.familytravel.user.dto.UserDto;
-import com.swyp6.familytravel.user.dto.UserProfileDto;
+import com.swyp6.familytravel.user.dto.*;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import com.swyp6.familytravel.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -81,9 +78,9 @@ public class UserService implements UserDetailsService {
         return UserDto.fromEntity(userRepository.save(userEntity));
     }
 
-    public UserProfileDto getMyProfile() {
+    public UserResponseDto getMyProfile() {
         UserEntity member = authFacade.extractUser();
-        return UserProfileDto.fromEntity(member);
+        return UserResponseDto.fromEntity(member);
     }
 
     public boolean existsByEmail(String email){

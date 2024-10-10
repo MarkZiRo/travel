@@ -18,7 +18,7 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final ImageSaveUtil imageSaveUtil;
 
-    private String storeImageFile(MultipartFile imageFile) {
+    public String storeImageFile(MultipartFile imageFile) {
         String originalFileName = Objects.requireNonNull(imageFile.getOriginalFilename());
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String saveFileName = UUID.randomUUID().toString() + fileExtension;

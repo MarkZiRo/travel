@@ -23,42 +23,37 @@ public class CommentController {
     @Operation(summary = "댓글 생성 API", description = "피드에 댓글을 생성합니다.")
     @PostMapping("/{feedId}")
     public CommentResponse createComment(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "feedId") Long feedId,
             @RequestBody @NotBlank String content){
-        return commentService.createComment(feedId, customUserDetails.getEntity(), content);
+        return commentService.createComment(feedId, content);
     }
 
     @Operation(summary = "댓글 좋아요 API", description = "댓글에 좋아요를 남깁니다. 만약 사용자가 이미 좋아요를 남겼으면 오류를 발생시킵니다.")
     @GetMapping("/like/{commentId}")
     public CommentResponse likeComment(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "commentId") Long commentId){
-        return commentService.addLike(commentId, customUserDetails.getEntity().getId());
+        return commentService.addLike(commentId);
     }
 
     @Operation(summary = "댓글 좋아요 취소 API", description = "댓글에 남긴 좋아요를 취소합니다. 만약 사용자가 좋아요를 남기지 않았다면 오류를 발생시킵니다.")
     @GetMapping("/removeLike/{commentId}")
     public CommentResponse removeLikeComment(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "commentId") Long commentId){
-        return commentService.removeLike(commentId, customUserDetails.getEntity().getId());
+        return commentService.removeLike(commentId);
     }
 
     @Operation(summary = "댓글 삭제 API", description = "댓글을 삭제합니다.")
     @DeleteMapping("/{commentId}")
     public void deleteComment(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "commentId") Long commentId
     ){
-        commentService.deleteComment(commentId, customUserDetails.getEntity().getId());
+        commentService.deleteComment(commentId);
     }
 
     @Operation(summary = "댓글 수정 API", description = "댓글을 수정합니다.")
     @PatchMapping("/{commentId}")
     public CommentResponse updateComment(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable(name = "commentId") Long commentId, @RequestBody @NotBlank String content){
-        return commentService.updateComment(commentId, customUserDetails.getEntity().getId(), content);
+        return commentService.updateComment(commentId, content);
     }
 }

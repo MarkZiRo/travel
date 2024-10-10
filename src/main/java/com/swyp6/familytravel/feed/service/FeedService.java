@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.feed.service;
 
 
+import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.feed.dto.*;
 import com.swyp6.familytravel.feed.entity.Feed;
@@ -31,49 +32,60 @@ public class FeedService {
 
     private final ImageService imageStoreService;
 
-    public FeedDetailResponse createFeed(UserEntity user, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
+    private final AuthenticationFacade authFacade;
+
+
+    public FeedDetailResponse createFeed(FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles){
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
+        UserEntity user = authFacade.extractUser();
         Feed newFeed = feedRequest.toFeed(user, imageFileNames);
         feedRepository.save(newFeed);
-        return new FeedDetailResponse(newFeed);
+        return new FeedDetailResponse(user.getId(), newFeed);
     }
 
-    public FeedDetailResponse updateFeed(Long userId, Long feedId, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
+    public FeedDetailResponse updateFeed(Long feedId, FeedRequest feedRequest, Optional<List<MultipartFile>> imageFiles) {
+        Long userId = authFacade.extractUser().getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         assert(feed.getUser().getId().equals(userId));
         imageService.deleteImageList(feed.getImageList());
         List<String> imageFileNames = imageStoreService.storeImageFiles(imageFiles);
         feed.updateFeedContent(feedRequest, imageFileNames);
-        return new FeedDetailResponse(feed);
+        return new FeedDetailResponse(userId, feed);
     }
 
     @Transactional(readOnly = true)
     public FeedDetailResponse getFeed(Long feedId) {
+        Long userId = authFacade.extractUser().getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
-        return new FeedDetailResponse(feed);
+        return new FeedDetailResponse(userId, feed);
     }
 
-    public FeedPreviewResponse likeFeed(Long feedId, Long userId) {
+    public FeedPreviewResponse likeFeed(Long feedId) {
+        Long userId = authFacade.extractUser().getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.addLike(userId);
-        return new FeedPreviewResponse(feed);
+        return new FeedPreviewResponse(userId, feed);
     }
 
-    public FeedPreviewResponse removeLikeFeed(Long feedId, Long userId) {
+    public FeedPreviewResponse removeLikeFeed(Long feedId) {
+        Long userId = authFacade.extractUser().getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.removeLike(userId);
-        return new FeedPreviewResponse(feed);
+        return new FeedPreviewResponse(userId, feed);
     }
 
-    public PageImpl<FeedPreviewResponse> getUserFeedList(Long userId, Pageable pageable){
+    @Transactional(readOnly = true)
+    public PageImpl<FeedPreviewResponse> getUserFeedList(Pageable pageable){
+        Long userId = authFacade.extractUser().getId();
         List<FeedPreviewResponse> userFeedList = feedRepository.findByUserIdOrderByCreatedDateTimeDesc(userId)
-                .stream().map(FeedPreviewResponse::new).toList();
+                .stream().map((feed -> new FeedPreviewResponse(userId, feed))).toList();
         return feedListToPageable(pageable, userFeedList);
 
     }
 
-    public PageImpl<FeedPreviewResponse> getRecommendFeedList(Long userId, Pageable pageable){
-
+    @Transactional(readOnly = true)
+    public PageImpl<FeedPreviewResponse> getRecommendFeedList(Pageable pageable){
+        Long userId = authFacade.extractUser().getId();
         List<FeedPreviewResponse> recommendedFeeds = recommendFeed(userId);
         return feedListToPageable(pageable, recommendedFeeds);
     }
@@ -86,9 +98,9 @@ public class FeedService {
                 .map(feed -> new FeedSimilarity(feed, calculateAverageSimilarity(feed, likedFeeds)))
                 .sorted(Comparator.comparing(FeedSimilarity::similarity).reversed())
                 .map(FeedSimilarity::feed)
-                .map(FeedPreviewResponse::new)
+                .map(feed -> new FeedPreviewResponse(userId, feed))
                 .toList());
-        List<FeedPreviewResponse> likedFeedPreviewResponse = likedFeeds.stream().map(FeedPreviewResponse::new).toList();
+        List<FeedPreviewResponse> likedFeedPreviewResponse = likedFeeds.stream().map(feed -> new FeedPreviewResponse(userId, feed)).toList();
         feedPreviewResponseList.addAll(likedFeedPreviewResponse);
         return feedPreviewResponseList;
     }
@@ -113,16 +125,19 @@ public class FeedService {
         return (double) intersection.size() / union.size();
     }
 
-    public void deleteFeed(Long feedId, Long userId) {
+    public void deleteFeed(Long feedId) {
+        Long userId = authFacade.extractUser().getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         assert(feed.getUser().getId().equals(userId));
         feedRepository.delete(feed);
     }
 
-    public PageImpl<FeedPreviewResponse> getFeedListFamily(UserEntity user, Pageable pageable) {
+    @Transactional(readOnly = true)
+    public PageImpl<FeedPreviewResponse> getFeedListFamily(Pageable pageable) {
+        UserEntity user = authFacade.extractUser();
         Family family = user.getFamily();
         List<Long> familyUserList = (family == null) ? List.of(user.getId()) : family.getUserList().stream().map(UserEntity::getId).toList();
-        List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(familyUserList).stream().map(FeedPreviewResponse::new).toList();
+        List<FeedPreviewResponse> familyFeeds = feedRepository.searchFeedInFamily(familyUserList).stream().map(feed -> new FeedPreviewResponse(user.getId(), feed)).toList();
         return feedListToPageable(pageable, familyFeeds);
     }
 
