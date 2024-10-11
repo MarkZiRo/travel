@@ -98,4 +98,17 @@ public class FamilyService {
                 .map(FamilyDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    public FamilyDto joinFamily(Long id) {
+        UserEntity user = facade.extractUser();
+        Family family = familyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Family not found"));
+
+        if(user.getFamily() != null)
+            throw new IllegalArgumentException("가족이 이미 존재합니다.");
+
+        family.addUser(user);
+
+        return FamilyDto.fromEntity(family);
+    }
 }

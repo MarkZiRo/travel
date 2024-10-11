@@ -58,4 +58,11 @@ public class FamilyController {
     public FamilyDto inviteFamilyMember(@PathVariable Long id, @RequestBody InviteUserDto dto) {
         return familyService.inviteUser(id, dto);
     }
+
+
+    @Operation(summary = "가족 가입 API", description = "가족에 가입합니다")
+    @PostMapping("/{id}/join")
+    public FamilyDto joinFamily(@PathVariable Long id) {
+        return familyService.joinFamily(id);
+    }
 }
