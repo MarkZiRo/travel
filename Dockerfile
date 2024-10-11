@@ -28,8 +28,8 @@ ENV ALLOW_ORIGIN=${ALLOW_ORIGIN}
 # jar 파일 복제
 COPY build/libs/familytravel-0.0.1-SNAPSHOT.jar app.jar
 
-RUN mkdir /photo
-VOLUME ["/photo"]
+RUN mkdir /image
+VOLUME ["/image"]
 
 EXPOSE 8080
 EXPOSE 443
