@@ -1,6 +1,7 @@
 package com.swyp6.familytravel.travel.controller;
 
 import com.swyp6.familytravel.travel.dto.CreateTravelDto;
+import com.swyp6.familytravel.travel.dto.DDayResponse;
 import com.swyp6.familytravel.travel.dto.TravelDto;
 import com.swyp6.familytravel.travel.service.TravelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,5 +43,12 @@ public class TravelController {
     public void deleteTravel(@PathVariable Long id)
     {
         travelService.deleteTravel(id);
+    }
+
+    @Operation(summary = "D-Day API", description = "가장 가까운 기념일, 여행을 불러옵니다.")
+    @GetMapping("/d-day")
+    public DDayResponse getDDay()
+    {
+        return travelService.getDDay();
     }
 }
