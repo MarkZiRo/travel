@@ -67,9 +67,28 @@ public class TravelService {
                 .collect(Collectors.toList());
     }
 
+    public TravelDto updateTravel(Long id, CreateTravelDto dto) {
+        UserEntity user = authFacade.extractUser();
+
+        Travel travel = travelRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("여행을 찾을 수 없습니다."));
+
+        if (!travel.getFamily().getId().equals(user.getFamily().getId())) {
+            throw new IllegalStateException("해당 여행에 대한 권한이 없습니다.");
+        }
+
+        travel.setName(dto.getName());
+        travel.setStartDate(dto.getStartDate());
+        travel.setEndDate(dto.getEndDate());
+
+        return TravelDto.fromEntity(travel);
+    }
+
+
     public void deleteTravel(Long id) {
         Travel travel = travelRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("여행을 찾을 수 없습니다."));
+        // TODO : 권한 검사 추가
 
         Family family = travel.getFamily();
         family.removeTravel(travel);

@@ -45,6 +45,13 @@ public class TravelController {
         travelService.deleteTravel(id);
     }
 
+    @Operation(summary = "여행 수정 API", description = "여행정보를 수정합니다.")
+    @PatchMapping("/{id}")
+    public TravelDto updateTravel(@PathVariable Long id, @RequestBody CreateTravelDto dto)
+    {
+        return travelService.updateTravel(id, dto);
+    }
+
     @Operation(summary = "D-Day API", description = "가장 가까운 기념일, 여행을 불러옵니다.")
     @GetMapping("/d-day")
     public DDayResponse getDDay()
