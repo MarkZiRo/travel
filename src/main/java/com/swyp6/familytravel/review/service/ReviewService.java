@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.review.service;
 
+import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.review.dto.CreateReviewDto;
 import com.swyp6.familytravel.review.dto.ReviewDto;
 import com.swyp6.familytravel.review.dto.UpdateReviewDto;
@@ -7,6 +8,7 @@ import com.swyp6.familytravel.review.entity.Review;
 import com.swyp6.familytravel.review.repository.ReviewRepository;
 import com.swyp6.familytravel.travel.entity.Travel;
 import com.swyp6.familytravel.travel.repository.TravelRepository;
+import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +25,17 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final TravelRepository travelRepository;
+    private final AuthenticationFacade facade;
 
     public ReviewDto createReview(Long travelId, CreateReviewDto dto) {
+        UserEntity user = facade.extractUser();
         Travel travel = travelRepository.findById(travelId)
                 .orElseThrow(() -> new EntityNotFoundException("Travel not found"));
 
         Review review = Review.builder()
-                .name(dto.getName())
-                .startDate(dto.getStartDate())
-                .endDate(dto.getEndDate())
                 .title(dto.getTitle())
                 .content(dto.getContent())
+                .user(user)
                 .travel(travel)
                 .build();
 
@@ -58,9 +60,6 @@ public class ReviewService {
     public ReviewDto updateReview(Long travelId, Long reviewId, UpdateReviewDto dto) {
         Review review = getReviewEntity(travelId, reviewId);
 
-        review.setName(dto.getName());
-        review.setStartDate(dto.getStartDate());
-        review.setEndDate(dto.getEndDate());
         review.setTitle(dto.getTitle());
         review.setContent(dto.getContent());
 
