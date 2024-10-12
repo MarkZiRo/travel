@@ -12,21 +12,19 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ReviewDto {
     private Long id;
-    private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
     private String title;
     private String content;
+    private String nickName;
+    private String profileImage;
     private Long travelId;
 
     public static ReviewDto fromEntity(Review review) {
         return ReviewDto.builder()
                 .id(review.getId())
-                .name(review.getName())
-                .startDate(review.getStartDate())
-                .endDate(review.getEndDate())
                 .title(review.getTitle())
                 .content(review.getContent())
+                .nickName(review.getUser().getNickName())
+                .profileImage(review.getUser().getProfileImage())
                 .travelId(review.getTravel().getId())
                 .build();
     }

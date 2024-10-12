@@ -80,7 +80,7 @@ public class TravelService {
         UserEntity user = authFacade.extractUser();
         Family family = user.getFamily();
         Objects.requireNonNull(family);
-        Travel travel = travelRepository.findFirstByFamilyIdAndStartDateAfterOrStartDateOrderByStartDateAsc(user.getFamily().getId(), LocalDate.now(),  LocalDate.now()).orElse(null);
+        Travel travel = travelRepository.findFirstByFamilyIdAndStartDateGreaterThanEqualOrderByStartDateAsc(user.getFamily().getId(), LocalDate.now()).orElse(null);
         Map<LocalDate, String> anniversary = family.getAnniversary();
 
         LocalDate closestAnniversary = anniversary.keySet().stream()
