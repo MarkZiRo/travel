@@ -24,7 +24,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --platform linux/amd64 \
+          docker buildx build . --file Dockerfile --platform linux/amd64 \
           -t ${{ secrets.DOCKERHUB_USERNAME }}/swyp6 \
           --build-arg DB_NAME=${{ secrets.DB_NAME }} \
           --build-arg MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }} \
