@@ -5,6 +5,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
+    hikari:
+      maximumPoolSize: 20
 
   servlet:
     multipart:
@@ -18,7 +20,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-    show-sql: true
   security:
     oauth2:
       client:
