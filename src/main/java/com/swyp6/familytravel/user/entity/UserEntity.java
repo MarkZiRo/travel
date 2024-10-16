@@ -36,4 +36,11 @@ public class UserEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     private Family family;
+
+    public Family getFamily(){
+        if(family == null){
+            throw new EntityNotFoundException("가족이 존재하지 않습니다.");
+        }
+        return family;
+    }
 }

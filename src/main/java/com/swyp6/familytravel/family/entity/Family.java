@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.family.entity;
 
+import com.swyp6.familytravel.anniversary.entiry.Anniversary;
 import com.swyp6.familytravel.travel.entity.Travel;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -17,7 +18,8 @@ import java.util.Map;
 @Setter
 public class Family {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String familyName;
@@ -27,8 +29,8 @@ public class Family {
 
     private String profileImage;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Map<LocalDate, String> anniversary = new HashMap<>();
+    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Anniversary> anniversaries = new ArrayList<>();
 
     @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Travel> travels = new ArrayList<>();
@@ -45,5 +47,14 @@ public class Family {
     public void addUser(UserEntity user) {
         userList.add(user);
         user.setFamily(this);  // 양방향 관계 설정
+    }
+
+    public void addAnniversary(Anniversary anniversary) {
+        anniversaries.add(anniversary);
+        anniversary.setFamily(this);
+    }
+
+    public void deleteAnniversary(Anniversary anniversary) {
+        anniversaries.remove(anniversary);
     }
 }

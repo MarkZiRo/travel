@@ -1,5 +1,7 @@
 package com.swyp6.familytravel.travel.service;
 
+import com.swyp6.familytravel.anniversary.entiry.Anniversary;
+import com.swyp6.familytravel.anniversary.repository.AnniversaryRepository;
 import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.family.repository.FamilyRepository;
@@ -28,6 +30,7 @@ public class TravelService {
 
     private final TravelRepository travelRepository;
     private final FamilyRepository familyRepository;
+    private final AnniversaryRepository anniversaryRepository;
     private final AuthenticationFacade authFacade;
 
 
@@ -100,22 +103,18 @@ public class TravelService {
         Family family = user.getFamily();
         Objects.requireNonNull(family);
         Travel travel = travelRepository.findFirstByFamilyIdAndStartDateGreaterThanEqualOrderByStartDateAsc(user.getFamily().getId(), LocalDate.now()).orElse(null);
-        Map<LocalDate, String> anniversary = family.getAnniversary();
+        Anniversary anniversary = anniversaryRepository.findFirstByFamilyIdAndDateGreaterThanEqualOrderByDateAsc(user.getFamily().getId(), LocalDate.now()).orElse(null);
 
-        LocalDate closestAnniversary = anniversary.keySet().stream()
-                .filter(date -> date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now()))
-                .min(LocalDate::compareTo).orElse(null);
-
-        if (travel != null && closestAnniversary != null) {
-            if (closestAnniversary.isBefore(travel.getStartDate())) {
-                return new DDayResponse(anniversary.get(closestAnniversary), closestAnniversary.toEpochDay() - LocalDate.now().toEpochDay());
+        if (travel != null && anniversary != null) {
+            if (anniversary.getDate().isBefore(travel.getStartDate())) {
+                return new DDayResponse(anniversary.getContent(), anniversary.getDate().toEpochDay() - LocalDate.now().toEpochDay());
             } else {
                 return new DDayResponse(travel.getName(), travel.getStartDate().toEpochDay() - LocalDate.now().toEpochDay());
             }
         } else if (travel != null) {
             return new DDayResponse(travel.getName(), travel.getStartDate().toEpochDay() - LocalDate.now().toEpochDay());
-        } else if (closestAnniversary != null) {
-            return new DDayResponse(anniversary.get(closestAnniversary), closestAnniversary.toEpochDay() - LocalDate.now().toEpochDay());
+        } else if (anniversary != null) {
+            return new DDayResponse(anniversary.getContent(), anniversary.getDate().toEpochDay() - LocalDate.now().toEpochDay());
         }
         throw new EntityNotFoundException("가장 가까운 기념일, 여행을 찾을 수 없습니다.");
     }
