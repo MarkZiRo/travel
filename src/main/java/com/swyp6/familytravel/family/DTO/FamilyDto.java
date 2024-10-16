@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.family.DTO;
 
+import com.swyp6.familytravel.anniversary.dto.AnniversaryResponse;
 import com.swyp6.familytravel.family.entity.Family;
 import com.swyp6.familytravel.user.dto.UserDto;
 import com.swyp6.familytravel.user.dto.UserResponseDto;
@@ -22,7 +23,7 @@ public class FamilyDto {
     private String familyName;
     private List<UserResponseDto> userList;
     private String profileImage;
-    private Map<LocalDate, String> anniversary;
+    private List<AnniversaryResponse> anniversary;
 
     public static FamilyDto fromEntity(Family family)
     {
@@ -33,7 +34,7 @@ public class FamilyDto {
                         .map(UserResponseDto::fromEntity)  // UserDto로 변환
                         .collect(Collectors.toList()))
                 .profileImage(family.getProfileImage())
-                .anniversary(family.getAnniversary())
+                .anniversary(family.getAnniversaries().stream().map(AnniversaryResponse::new).toList())
                 .build();
     }
 }

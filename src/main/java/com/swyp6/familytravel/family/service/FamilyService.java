@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.family.service;
 
+import com.swyp6.familytravel.anniversary.dto.AnniversaryRequest;
 import com.swyp6.familytravel.auth.config.AuthenticationFacade;
 import com.swyp6.familytravel.family.DTO.*;
 import com.swyp6.familytravel.family.entity.Family;
@@ -53,16 +54,6 @@ public class FamilyService {
 
         return FamilyDto.fromEntity(familyRepository.save(family));
 
-    }
-
-    public FamilyDto updateFamilyAnniversary(Long familyId, FamilyAnniversaryDto dto) {
-
-        Family family = familyRepository.findById(familyId)
-                .orElseThrow(()-> new EntityNotFoundException("not found"));
-
-        family.getAnniversary().put(dto.getAnniversaryDate(), dto.getAnniversaryContent());
-
-        return FamilyDto.fromEntity(familyRepository.save(family));
     }
 
     public FamilyDto inviteUser(Long id, InviteUserDto dto) {
