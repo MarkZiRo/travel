@@ -6,6 +6,7 @@ import com.swyp6.familytravel.comment.entity.Comment;
 import com.swyp6.familytravel.comment.repository.CommentRepository;
 import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
+import com.swyp6.familytravel.notification.service.NotificationService;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final FeedRepository feedRepository;
     private final AuthenticationFacade authenticationFacade;
+    private final NotificationService notificationService;
 
     public CommentResponse createComment(Long feedId, String content) {
         UserEntity user = authenticationFacade.extractUser();
@@ -30,6 +32,7 @@ public class CommentService {
                 .feed(feed)
                 .build();
         commentRepository.save(comment);
+        notificationService.sendToUser(feed.getUser(), user.getNickName() + "님이 댓글을 남겼습니다.");
         return new CommentResponse(user.getId(), comment);
     }
 
@@ -50,16 +53,18 @@ public class CommentService {
     }
 
     public CommentResponse addLike(Long commentId) {
-        Long userId = authenticationFacade.extractUser().getId();
+        UserEntity user = authenticationFacade.extractUser();
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
-        comment.addLike(userId);
-        return new CommentResponse(userId, comment);
+        comment.addLike(user.getId());
+        notificationService.sendToUser(comment.getUser(), user.getNickName() + "님이 댓글에 좋아요를 눌렀습니다.");
+        return new CommentResponse(user.getId(), comment);
     }
 
     public CommentResponse removeLike(Long commentId) {
-        Long userId = authenticationFacade.extractUser().getId();
+        UserEntity user = authenticationFacade.extractUser();
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글이 존재하지 않습니다."));
-        comment.removeLike(userId);
-        return new CommentResponse(userId, comment);
+        comment.removeLike(user.getId());
+        notificationService.sendToUser(comment.getUser(), user.getNickName() + "님이 댓글에 좋아요를 제거했습니다.");
+        return new CommentResponse(user.getId(), comment);
     }
 }

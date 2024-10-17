@@ -10,20 +10,24 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/notification")
 @Tag(name = "Notification")
-@SecurityRequirement(name = "bearerAuth")
 public class NotificationController {
 
     private final NotificationService notificationService;
 
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect(
-            @RequestParam String lastEventId,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
-    ) {
-        return notificationService.connect(lastEventId, customUserDetails.getId());
+    ) throws IOException {
+        return notificationService.connect();
+    }
+
+    @GetMapping("/test")
+    public void test(){
+        notificationService.sendToUser("test");
     }
 }

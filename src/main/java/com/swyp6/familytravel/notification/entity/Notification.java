@@ -1,5 +1,6 @@
 package com.swyp6.familytravel.notification.entity;
 
+import com.swyp6.familytravel.common.entity.BaseEntity;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Notification {
+public class Notification extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

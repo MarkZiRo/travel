@@ -8,6 +8,7 @@ import com.swyp6.familytravel.feed.entity.Feed;
 import com.swyp6.familytravel.feed.entity.FeedScope;
 import com.swyp6.familytravel.feed.repository.FeedRepository;
 import com.swyp6.familytravel.image.service.ImageService;
+import com.swyp6.familytravel.notification.service.NotificationService;
 import com.swyp6.familytravel.user.entity.UserEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ public class FeedService {
     private final FeedRepository feedRepository;
 
     private final ImageService imageStoreService;
+
+    private final NotificationService notificationService;
 
     private final AuthenticationFacade authFacade;
 
@@ -61,16 +64,21 @@ public class FeedService {
     }
 
     public FeedPreviewResponse likeFeed(Long feedId) {
-        Long userId = authFacade.extractUser().getId();
+        UserEntity user = authFacade.extractUser();
+        Long userId = user.getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.addLike(userId);
+        notificationService.sendToUser(feed.getUser(), user.getNickName() + "님이 좋아요를 눌렀습니다.");
+
         return new FeedPreviewResponse(userId, feed);
     }
 
     public FeedPreviewResponse removeLikeFeed(Long feedId) {
-        Long userId = authFacade.extractUser().getId();
+        UserEntity user = authFacade.extractUser();
+        Long userId = user.getId();
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new EntityNotFoundException("Feed 가 없습니다."));
         feed.removeLike(userId);
+        notificationService.sendToUser(feed.getUser(), user.getNickName() + "님이 좋아요를 제거했습니다.");
         return new FeedPreviewResponse(userId, feed);
     }
 
