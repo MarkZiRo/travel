@@ -52,4 +52,4 @@ feed:
   page-size: 10
 
 cors:
-  origin: http://localhost:3000/, http://13.209.88.22:3000/
+  origin: http://localhost:3000/, http://13.209.88.22:3000/, https://tripterior-six.vercel.app/auth
