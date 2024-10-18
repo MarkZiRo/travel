@@ -77,7 +77,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(cookie);
 
         // 어디로 리다이렉트 할지 지정
-        String targetUrl = "https://tripterior-six.vercel.app/auth?jwt=" + jwt;
+        String targetUrl = "https://tripterrior.vercel.app/auth?jwt=" + jwt;
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }
