@@ -14,6 +14,9 @@
 [Swagger](http://13.209.88.22:8080/swagger-ui/index.html#/travel-controller/updateTravel)<br />
 
 
+https://github.com/user-attachments/assets/c3fc207b-cbbe-4a21-b3a9-245840e58319
+
+
 # 🛠️ 기술 스택
 
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=Spring-Boot&logoColor=white">
