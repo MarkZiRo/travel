@@ -14,10 +14,13 @@
 [Swagger](http://13.209.88.22:8080/swagger-ui/index.html#/travel-controller/updateTravel)<br />
 
 
+# 🛠️ 기술 스택
+
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=Spring-Boot&logoColor=white">
 <img src="https://img.shields.io/badge/JPA-007396?style=flat-square&logo=Hibernate&logoColor=white">
 <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=flat-square&logo=Spring-Security&logoColor=white">
 <img src="https://img.shields.io/badge/QueryDSL-4479A1?style=flat-square&logo=QueryDSL&logoColor=white">
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white">
 <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=GitHub-Actions&logoColor=white">
-
+<img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=Amazon-AWS&logoColor=white">
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white">
